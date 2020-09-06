@@ -1,9 +1,16 @@
 import React, { Suspense, lazy } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
+
 import Builder from "./Builder";
 import Dashboard from "./Dashboard";
-import Profile from "./Profile";
 import DocsPage from "./docs/DocsPage";
+import ChangePassword from "./ChangePassword";
+
+import Profile from "./Profile";
+import Channels from "./Channels";
+import Links from "./Links";
+import Report from "./Report";
+
 import { LayoutSplashScreen } from "../../../_metronic";
 
 const GoogleMaterialPage = lazy(() =>
@@ -24,14 +31,20 @@ export default function HomePage() {
       <Switch>
         {
           /* Redirect from root URL to /dashboard. */
-          <Redirect exact from="/" to="/dashboard" />
+          <Redirect exact from="/" to="/report" />
         }
         <Route path="/builder" component={Builder} />
         <Route path="/dashboard" component={Dashboard} />
-        <Route path="/profile" component={Profile} />
+        <Route path="/change-password" component={ChangePassword} />
         <Route path="/google-material" component={GoogleMaterialPage} />
         <Route path="/react-bootstrap" component={ReactBootstrapPage} />
         <Route path="/docs" component={DocsPage} />
+        
+        <Route path="/profile" component={Profile} />
+        <Route path="/channels" component={Channels} />
+        <Route path="/links" component={Links} />
+        <Route path="/report" component={Report} />
+
         <Redirect to="/error/error-v1" />
       </Switch>
     </Suspense>

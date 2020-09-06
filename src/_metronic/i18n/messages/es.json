@@ -7,6 +7,12 @@
   "MENU.FEATURES": "Caracteristicas",
   "MENU.APPS": "Aplicaciones",
   "MENU.DASHBOARD": "Tablero",
+
+  "MENU.REPORT": "Reporte",
+  "MENU.PROFILE": "Perfil",
+  "MENU.CHANNELS": "Canales",
+  "MENU.LINKS": "Enlaces",
+
   "AUTH.GENERAL.OR": "O",
   "AUTH.GENERAL.SUBMIT_BUTTON": "Enviar",
   "AUTH.GENERAL.NO_ACCOUNT": "No tienes una cuenta?",

@@ -19,6 +19,11 @@
 		}
 	}
 
+	// Logo Text
+	.kt-aside--minimize & h3{
+		display: none;
+	}
+
 	// Footer
 	.kt-aside__footer {
 		.kt-aside__footer-nav {

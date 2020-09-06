@@ -17,6 +17,7 @@ function Registration(props) {
         firstname: "",
         lastname: "",
         password: "",
+        user_id: "",
         acceptTerms: true,
         newsletter: true,
       }}
@@ -47,6 +48,12 @@ function Registration(props) {
           });
         }
 
+        if (!values.lastname) {
+          errors.user_id = intl.formatMessage({
+            id: "AUTH.VALIDATION.REQUIRED_FIELD"
+          });
+        }
+
         if (!values.password) {
           errors.password = intl.formatMessage({
             id: "AUTH.VALIDATION.REQUIRED_FIELD"
@@ -61,6 +68,7 @@ function Registration(props) {
       }}
       onSubmit={(values, { setStatus, setSubmitting }) => {
         register(
+          values.user_id,
           values.email,
           values.firstname,
           values.lastname,
@@ -100,6 +108,20 @@ function Registration(props) {
                 <div className="alert-text">{status}</div>
               </div>
             )}
+
+            <div className="form-group mb-0  auth-form-field-compact">
+              <TextField
+                margin="dense"
+                label="User ID"
+                className="kt-width-full"
+                name="user_id"
+                onBlur={handleBlur}
+                onChange={handleChange}
+                value={values.user_id}
+                helperText={touched.user_id && errors.user_id}
+                error={Boolean(touched.user_id && errors.user_id)}
+              />
+            </div>
 
             <div className="form-group mb-0  auth-form-field-compact">
               <TextField

@@ -1,15 +1,12 @@
 import React from "react";
-import { connect } from "react-redux";
 import { makeStyles } from '@material-ui/core/styles';
 import { green } from '@material-ui/core/colors';
 import {  TextField,  Button } from "@material-ui/core";
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { FormattedMessage, injectIntl } from "react-intl";
 
 import {  Portlet,  PortletBody,  PortletHeader } from "../../partials/content/Portlet";
 
-import { changeProfile } from "../../crud/auth.crud"
-import * as auth from "../../store/ducks/auth.duck";
+import { changePassword } from "../../crud/auth.crud"
 
 const useStyles = makeStyles(theme => ({
   buttonProgress: {
@@ -23,14 +20,12 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-function Profile(props) {
+export default function Profile() {
   const classes = useStyles();
   
   const [values, setValues] = React.useState({
-    firstname: props.user.firstname,
-    lastname: props.user.lastname,
-    email: props.user.email,
-
+    curPass: "",
+    newPass: "",
     isSaving: false,
     error: "",
     success: ""
@@ -44,10 +39,10 @@ function Profile(props) {
     event.preventDefault();
 
     setValues({ ...values, isSaving: true, success: '', error: '' });
-    changeProfile(values, 
+    changePassword(values.curPass, values.newPass, 
       (msg) => {
+        console.log('changePassword success');
         setValues({ ...values, isSaving: false, success: msg, error: '' })
-        props.requestUser();
       },
       (msg) => {
         setValues({ ...values, isSaving: false, success: '', error: msg })
@@ -58,11 +53,11 @@ function Profile(props) {
   return (
     <>
       <Portlet>
-        <PortletHeader title="Update Profile">
+        <PortletHeader title="Change Password">
         </PortletHeader>
         <PortletBody>
-          <div className="row row-full-height ml-3">
-            <form noValidate autoComplete="off" className="w-50">
+          <div className="row row-full-height">
+            <form noValidate autoComplete="off">
               {values.error && (
                 <div role="alert" className="alert alert-danger">
                   <div className="alert-text">{values.error}</div>
@@ -74,31 +69,25 @@ function Profile(props) {
                 </div>
               )}
               <TextField
-                key="firstname"
-                label="First Name"
-                value={values.firstname}
-                onChange={handleChange("firstname")}
+                key="cur-pass"
+                label="Current Password"
+                value={values.curPass}
+                onChange={handleChange("curPass")}
                 margin="normal"
-                required="true"
+                type="password"
+                autoComplete="current-password"
               />
               <br />
               <TextField
-                key="lastname"
-                label="Last Name"
-                value={values.lastname}
-                onChange={handleChange("lastname")}
+                key="new-pass"
+                label="New Password"
+                value={values.newPass}
+                onChange={handleChange("newPass")}
                 margin="normal"
+                type="password"
+                autoComplete="new-password"
               />
-              <br />
-              <TextField
-                key="email"
-                label="Email"
-                value={values.email}
-                onChange={handleChange("email")}
-                margin="normal"
-              />
-              <br />
-              <div className="mt-2">
+              <div>
                 <Button variant="contained"
                     color="primary"
                     onClick={handleSubmit} 
@@ -115,10 +104,3 @@ function Profile(props) {
     </>
   );
 }
-
-export default injectIntl(
-  connect(
-    ({ auth: { user } }) => ({ user }),
-    auth.actions
-  )(Profile)
-);

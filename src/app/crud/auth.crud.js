@@ -4,6 +4,7 @@ export const LOGIN_URL = "api/auth/login";
 export const REGISTER_URL = "api/auth/register";
 export const REQUEST_PASSWORD_URL = "api/auth/forgot-password";
 export const CHANGE_PASSWORD_URL = "api/auth/change-password";
+export const CHANGE_ME = "api/admin/me"
 
 export const ME_URL = "api/user";
 
@@ -11,8 +12,8 @@ export function login(email, password) {
   return axios.post(LOGIN_URL, { email, password });
 }
 
-export function register(email, firstname, lastname, password) {
-  return axios.post(REGISTER_URL, { email, firstname, lastname, password });
+export function register(user_id, email, firstname, lastname, password) {
+  return axios.post(REGISTER_URL, { user_id, email, firstname, lastname, password });
 }
 
 export function requestPassword(email) {
@@ -35,4 +36,17 @@ export function changePassword(curPassword, newPassword, callBackSuccess, callBa
 export function getUserByToken() {
   // Authorization head should be fulfilled in interceptor.
   return axios.get(ME_URL);
+}
+
+export function changeProfile({ firstname, lastname, email, bio }, callBackSuccess, callBackError) {
+  return axios.patch(CHANGE_ME, { firstname, lastname, email, bio })
+    .then((result) => {
+      console.log('updateMe success', result);
+      callBackSuccess(result.message || 'Profile changed!')
+    })
+    .catch((error) => {
+      console.log('updateMe Error', error);
+      const errorMsg = error.description || error.message || 'Unspecified error';
+      callBackError('Profile Change Failed!')
+    });
 }
