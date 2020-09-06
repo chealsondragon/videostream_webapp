@@ -1,0 +1,234 @@
+//
+// Page - User Login 1
+// Pages SASS files are compiled into separate css files
+//
+
+
+
+// Global config
+@import "../../config";
+
+// Layout config
+@import "../../global/layout/config.scss";
+
+// Login Base
+.kt-login.kt-login--v1 {
+    flex-basis: 100%;
+    overflow: hidden;
+    
+    -webkit-box-pack: center;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    z-index: 2;
+    // padding-left: 8%;
+
+    font-family: Lato, sans-serif;
+
+    -webkit-font-smoothing: antialiased;
+
+    line-height: 1.15;
+
+    .auth-panel {
+        display: flex;
+        flex-direction: column;
+        -webkit-box-align: center;
+        align-items: center;
+        width: 100%;
+        // min-height: 100vh;
+        max-width: 420px;
+        background-image: linear-gradient(-180deg, rgb(255, 255, 255) 39%, rgba(225, 225, 225, 0.95) 86%);
+
+        .kt-auth__logo {
+            display: flex;
+
+            margin-bottom: 80px;
+            margin-top: 100px;
+
+            text-decoration: none;
+            color: black;
+        }
+        
+        .auth-form-header {
+            font-size: 12px;
+            color: rgb(82, 84, 97);
+        }
+
+        .auth-form-field {
+            height: 80px;
+        }
+
+        .auth-form-field-compact {
+            height: 70px;
+        }
+
+        .kt-width-full {
+            width: 100%;
+        }
+
+        .kt-register__checks {
+            margin-top: 3em;
+        }
+
+        .kt-register__checks-text {
+            font-size: 12px;
+            color: rgb(82, 84, 97);
+        }
+
+        .kt-login__forgot {
+            margin-top: 10px;
+            text-align: right;
+
+            .kt-login__link-forgot {
+                font-size: 13px;
+                font-weight: 600;
+                margin: 0;
+            }
+        }
+
+        .kt-login__btn-primary {
+            box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 50px 0px;
+            font-weight: 600;
+            font-size: 15px;
+            color: rgb(255, 255, 255);
+            text-align: center;
+            width: 100%;
+            cursor: pointer;
+            min-height: 50px;
+            background-image: linear-gradient(-135deg, rgb(149, 209, 241) 0%, rgb(153, 194, 243) 100%);
+            border-radius: 6px;
+            outline: none;
+            border-width: initial;
+            border-style: none;
+            border-color: initial;
+            border-image: initial;
+            padding: 10px 0px;
+            margin: 70px 0 100px 0;
+
+            &:hover {
+                background-image: linear-gradient(-135deg, rgb(87, 160, 255) 0%, rgb(0, 111, 255) 100%);
+            }
+        }
+
+        .auth__btn-compact {
+            min-height: 37px;
+            margin: 10px 0;
+        }
+
+        .kt-login__btn-secondary {
+            border: 1px solid #c2c4ce;
+            color: #7e8190;
+            background-color: transparent;
+            width: 100%;
+            margin: 10px 0;
+
+            &:hover {
+                border-color: #e5e7ed;
+            }
+        }
+
+        .kt-login__signup {
+            text-align: center;
+
+            .kt-login__signup-label {
+                margin-right: 0.5em;
+            }
+        }
+
+        .kt-auth__footer {
+            display: flex;
+            justify-content: space-evenly;
+            width: 100%;
+            margin-top: auto;
+            padding: 30px 0px;
+
+            .kt-link-auth {
+                font-size: 12px;
+                color: rgb(82, 84, 97);
+                cursor: pointer;
+                text-decoration: none;
+            }
+        }
+    }
+
+    // Form
+    .kt-form-auth {
+        width: 100%;
+        padding: 20px 50px;
+
+        .form-group {
+            padding: 0;
+            margin: 0;
+
+            .form-control {
+                border: none;
+                height: 50px;
+                margin-top: 1.25rem;
+                background-color: rgba(#f7f7f9, 0.7);
+                padding-left: 1.25rem;
+                padding-right: 1.25rem;
+                transition: background-color 0.3s ease;
+
+                &:focus {
+                    transition: background-color 0.3s ease;
+                    background-color: #f7f7f9;
+                }
+            }
+        }
+    }
+
+    @include kt-desktop {
+        // Aside
+        .kt-login__aside {
+            flex: 1;
+        }
+    }
+
+    @include kt-tablet-and-mobile() {
+        // Aside
+        .kt-login__aside {
+            width: 100%;
+            height: auto;
+            padding: 2rem 1.5rem;
+
+            .kt-login__logo {
+                margin-bottom: 2.5rem;
+            }
+
+            .kt-login__info {
+                margin-top: 2rem;
+            }
+
+            .kt-login__subtitle {
+                margin: 2rem 0;
+            }
+        }
+
+        // Wrapper
+        .kt-login__wrapper {
+            padding: 3rem 1.5rem;
+
+            .kt-login__head {
+                padding-left: 2rem;
+                right: 2rem;
+            }
+
+            .kt-login__body {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-top: 5rem;
+
+                .kt-login__form {
+                    .kt-login__options {
+                        > a {
+                            &:not(:first-child):not(:last-child) {
+                                margin: 0 0.8rem;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
