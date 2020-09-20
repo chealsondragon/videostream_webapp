@@ -4,18 +4,10 @@ import Registration from "./Registration";
 import ForgotPassword from "./ForgotPassword";
 import Login from "./Login";
 import { Helmet } from "react-helmet";
-import { Badge } from 'react-bootstrap';
-import { toAbsoluteUrl } from "../../../_metronic";
 import "../../../_metronic/_assets/sass/pages/login/login-1.scss";
 
 
 export default function AuthPage() {
-  const images = [
-    toAbsoluteUrl("/media/bg/1.jpg"),
-    toAbsoluteUrl("/media/bg/2.jpg"),
-    toAbsoluteUrl("/media/bg/3.jpg")
-  ];
-
   useEffect(() => {
     // window.easy_background("#authpage",
     //   { slide: images, delay: [10000, 10000, 10000] }, []);

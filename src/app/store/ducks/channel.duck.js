@@ -1,16 +1,16 @@
 import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
-import { put, takeLatest } from "redux-saga/effects";
-import { actions as auth_actions } from './auth.duck';
+import { takeLatest } from "redux-saga/effects";
 
 export const actionTypes = {
-  SetLoading: "[SetLoading] Action",
-  SetActionProgress: "[SetActionProgress] Action",
-  Create: "[Create] Action",
-  Update: "[Updated] Action",
-  Delete: "[Delete] Action",
-  Load: "[Load] Action",
-  LoadAll: "[LoadAll] Action",
+  SetLoading: "[SetLoading-Channel] Action",
+  SetActionProgress: "[SetActionProgress-Channel] Action",
+  Create: "[Create-Channel] Action",
+  Update: "[Updated-Channel] Action",
+  Delete: "[Delete-Channel] Action",
+  Load: "[Load-Channel] Action",
+  LoadAll: "[LoadAll-Channel] Action",
+  LoadRequest: "[LoadRequest-Channel] Action",
 };
 
 const initialAuthState = {
@@ -99,13 +99,25 @@ export const actions = {
   update: data => ({ type: actionTypes.Update, payload: data }),
   delete: id => ({ type: actionTypes.Delete, payload: { id } }),
   loadAll: data => ({ type: actionTypes.LoadAll, payload: data }),
+  loadRequest: () => ({ type: actionTypes.LoadRequest, payload: null }),
 
   setLoading: loading => ({ type: actionTypes.SetLoading, payload: { loading } }),
   setActionProgress: progress => ({ type: actionTypes.SetActionProgress, payload: { progress } })
 };
 
 export function* saga() {
-  yield takeLatest(actionTypes.Create, function* loginSaga() {
+  yield takeLatest(actionTypes.LoadRequest, function* loginSaga() {
     // yield put(auth_actions.requestUser());
+
+  //   yield put(actions.setLoading(true));
+  //   api.loadAll()
+  //     .then((result) => {
+  //       setValues({...values, success: "Loading links success!"})
+  //       yield put(actions.loadAll(result.data || []));
+  //     })
+  //     .catch((error) => {
+  //       setValues({...values, error: "Error in loading links!"})
+  //       yield put(actions.setLoading(false));
+  //     })
   });
 }

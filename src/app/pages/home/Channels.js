@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { makeStyles } from '@material-ui/core/styles';
 import { green } from '@material-ui/core/colors';
-import {  TextField,  Button, Paper, Table, TableCell, TableBody, TableHead, TableRow, IconButton, OutlinedInput } from "@material-ui/core";
+import {  TextField,  Button, Paper, Table, TableCell, TableBody, TableHead, TableRow, IconButton } from "@material-ui/core";
 import AddIcon from '@material-ui/icons/Add';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -10,9 +10,8 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { FormattedMessage, injectIntl } from "react-intl";
+import { injectIntl } from "react-intl";
 
 import {  Portlet,  PortletBody,  PortletHeader } from "../../partials/content/Portlet";
 
@@ -61,29 +60,31 @@ function ChannelComp(props) {
 
   React.useEffect(() => {
     if(!!values.error)
-      setValues({...values, snackOpen: true, snackMessage: values.error, snackType: "error"})
+      setValues(values => ({
+        ...values,
+        snackOpen: true, snackMessage: values.error, snackType: "error"
+      }));
   }, [values.error]);
   React.useEffect(() => {
     if(!!values.success)
-      setValues({...values, snackOpen: true, snackMessage: values.success, snackType: "success"})
+      setValues(values => ({
+        ...values,
+        snackOpen: true, snackMessage: values.success, snackType: "success"
+      }));
   }, [values.success]);
 
   React.useEffect(() => {
     props.setLoading(true);
     api.loadAll()
       .then((result) => {
-        setValues({...values, success: "Loading channels success!"})
+        setValues(values => ({...values, success: "Loading channels success!"}));
         props.loadAll(result.data || []);
       })
       .catch((error) => {
-        setValues({...values, error: "Error in loading channels!"})
+        setValues(values => ({...values, error: "Error in loading channels!"}));
         props.setLoading(false);
       })
   }, []);
-
-  const showConfirmDialog = (open, title, message) => {
-    setValues(...values, open, title, message);
-  }
 
   const onEditItem = row => {
     setValues({

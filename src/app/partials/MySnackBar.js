@@ -44,6 +44,11 @@ const useStyles1 = makeStyles(theme => ({
     display: 'flex',
     alignItems: 'center',
   },
+  boundary: {
+    position: "fixed",
+    top: "20px",
+    right: "20px"
+  }
 }));
 
 export default function MySnackBar(props) {
@@ -60,6 +65,7 @@ export default function MySnackBar(props) {
         open={open}
         autoHideDuration={6000}
         onClose={onClose}
+        className={classes.boundary}
       >
       <SnackbarContent
         className={clsx(classes[variant], className)}

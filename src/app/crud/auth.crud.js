@@ -28,7 +28,7 @@ export function changePassword(curPassword, newPassword, callBackSuccess, callBa
     })
     .catch((error) => {
       console.log('changePassword Error', error);
-      const errorMsg = error.description || error.message || 'Unspecified error';
+      // const errorMsg = error.description || error.message || 'Unspecified error';
       callBackError('Change Password Failed!')
     });
 }
@@ -38,15 +38,15 @@ export function getUserByToken() {
   return axios.get(ME_URL);
 }
 
-export function changeProfile({ firstname, lastname, email, bio }, callBackSuccess, callBackError) {
-  return axios.patch(CHANGE_ME, { firstname, lastname, email, bio })
+export function changeProfile(data, callBackSuccess, callBackError) {
+  return axios.patch(CHANGE_ME, data)
     .then((result) => {
       console.log('updateMe success', result);
       callBackSuccess(result.message || 'Profile changed!')
     })
     .catch((error) => {
       console.log('updateMe Error', error);
-      const errorMsg = error.description || error.message || 'Unspecified error';
+      // const errorMsg = error.description || error.message || 'Unspecified error';
       callBackError('Profile Change Failed!')
     });
 }
