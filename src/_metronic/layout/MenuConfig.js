@@ -2,77 +2,168 @@ export default {
   header: {
     self: {},
     items: [
+      // {
+      //   title: "ParetnSample-1",
+      //   root: true,
+      //   alignment: "left",
+      //   toggle: "click",
+      //   // page: 'channels',
+      //   submenu: [
+      //     {
+      //       title: "Child1",
+      //       icon: "flaticon2-expand",
+      //       page: "builder"
+      //     },
+      //     {
+      //       title: "Child2",
+      //       bullet: "dot",
+      //       icon: "flaticon2-warning",
+      //       submenu: [
+      //         {
+      //           title: "Child2-1",
+      //           page: "error/error-v1"
+      //         },
+      //         {
+      //           title: "Child2-2",
+      //           page: "error/error-v2"
+      //         },
+      //         {
+      //           title: "Error 3",
+      //           page: "error/error-v3"
+      //         },
+      //         {
+      //           title: "Error 4",
+      //           page: "error/error-v4"
+      //         },
+      //         {
+      //           title: "Error 5",
+      //           page: "error/error-v5"
+      //         },
+      //         {
+      //           title: "Error 6",
+      //           page: "error/error-v6"
+      //         }
+      //       ]
+      //     }
+      //   ]
+      // },
       {
-        title: "Profile",
+        title: "Users",
         root: true,
         alignment: "left",
         toggle: "click",
-        page: 'profile',
+        page: 'users',
+        translate: 'MENU.USERS'
+      },
+      { section: 'Data' },
+      {
+        title: "Category",
+        root: true,
+        alignment: "left",
+        toggle: "click",
+        page: 'categories',
+        translate: 'MENU.CATEGORY'
       },
       {
-        title: "Channels",
+        title: "Video",
         root: true,
         alignment: "left",
         toggle: "click",
-        page: 'channels',
-      },
-      {
-        title: "Links",
-        root: true,
-        alignment: "left",
-        toggle: "click",
-        page: 'links'
+        page: "videos",
+        translate: 'MENU.VIDEO'
       },
       {
         title: "Report",
+        alignment: "center",
         root: true,
-        alignment: "left",
         toggle: "click",
-        page: "report",
-      }
+        submenu: [
+          {
+            title: "Per Video",
+            root: true,
+            alignment: "left",
+            toggle: "click",
+            page: "stats_video",
+            translate: 'MENU.STATS_VIDEO'
+          },
+          {
+            title: "Per User",
+            root: true,
+            alignment: "left",
+            toggle: "click",
+            page: "stats_user",
+            translate: 'MENU.STATS_USER'
+          },
+          {
+            title: "Per Payment",
+            root: true,
+            alignment: "left",
+            toggle: "click",
+            page: "payment",
+            translate: 'MENU.PAYMENT'
+          }
+        ]
+      },
     ]
   },
   aside: {
     self: {},
     items: [
-      { section: 'User' },
       {
-        title: "Profile",
+        title: "Users",
         root: true,
-        icon: "fa fa-user",
+        icon: "fa fa-users",
         alignment: "left",
         toggle: "click",
-        page: 'profile',
-        translate: 'MENU.PROFILE'
+        page: 'users',
+        translate: 'MENU.USERS'
+      },
+      { section: 'Data' },
+      {
+        title: "Category",
+        root: true,
+        icon: "fa fa-list",
+        alignment: "left",
+        toggle: "click",
+        page: 'categories',
+        translate: 'MENU.CATEGORY'
       },
       {
-        title: "Channels",
+        title: "Video",
         root: true,
         icon: "fa fa-video",
         alignment: "left",
         toggle: "click",
-        page: 'channels',
-        translate: 'MENU.CHANNELS'
-      },
-      { section: 'Activities' },
-      {
-        title: "Links",
-        root: true,
-        icon: "fa fa-link",
-        alignment: "left",
-        toggle: "click",
-        page: 'links',
-        translate: 'MENU.LINKS'
+        page: "videos",
+        translate: 'MENU.VIDEO'
       },
       { section: 'Report' },
       {
-        title: "Report",
+        title: "Per Video",
         root: true,
-        icon: "flaticon2-paper",
+        icon: "fas fa-file",
         alignment: "left",
         toggle: "click",
-        page: "report",
-        translate: 'MENU.REPORT'
+        page: "stats_video",
+        translate: 'MENU.STATS_VIDEO'
+      },
+      {
+        title: "Per User",
+        root: true,
+        icon: "fa fa-file",
+        alignment: "left",
+        toggle: "click",
+        page: "stats_user",
+        translate: 'MENU.STATS_USER'
+      },
+      {
+        title: "Per Payment",
+        root: true,
+        icon: "fa fa-money-bill",
+        alignment: "left",
+        toggle: "click",
+        page: "payment",
+        translate: 'MENU.PAYMENT'
       }
     ]
   }

@@ -9,7 +9,7 @@ export default function BestSellers() {
       <div className="kt-portlet kt-portlet--height-fluid">
         <div className="kt-portlet__head">
           <div className="kt-portlet__head-label">
-            <h3 className="kt-portlet__head-title">Best Sellers</h3>
+            <h3 className="kt-portlet__head-title">Best Selling Movies</h3>
           </div>
           <PortletHeaderDropdown />
         </div>
@@ -25,8 +25,8 @@ export default function BestSellers() {
                   />
                 </div>
                 <div className="kt-widget5__section">
-                  <a className="kt-widget5__title">Great Logo Design</a>
-                  <p className="kt-widget5__desc">Metronic admin themes.</p>
+                  <a className="kt-widget5__title">Titanic</a>
+                  <p className="kt-widget5__desc">Metornic movies.</p>
                   <div className="kt-widget5__info">
                     <span>Author:</span>
                     <span className="kt-font-info">Keenthemes</span>
@@ -56,13 +56,13 @@ export default function BestSellers() {
                   />
                 </div>
                 <div className="kt-widget5__section">
-                  <a className="kt-widget5__title">Awesome Mobile App</a>
+                  <a className="kt-widget5__title">Romeo and Julioet</a>
                   <p className="kt-widget5__desc">
-                    Metronic admin themes. Lorem Ipsum Amet.
+                    Metornic movies. Lorem Ipsum Amet.
                   </p>
                   <div className="kt-widget5__info">
                     <span>Author:</span>
-                    <span className="kt-font-info">Fly themes</span>
+                    <span className="kt-font-info">Mount and Blade</span>
                     <span>Released:</span>
                     <span className="kt-font-info">23.08.17</span>
                   </div>

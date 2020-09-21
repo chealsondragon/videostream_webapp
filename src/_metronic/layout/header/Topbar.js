@@ -44,7 +44,7 @@ export default class Topbar extends React.Component {
 
           <LanguageSelector iconType="" />
 
-        <UserProfile showAvatar={false} showHi={true} showBadge={false} />
+        <UserProfile showAvatar={false} showHi={true} showBadge={false}/>
       </div>
     );
   }

@@ -35,7 +35,7 @@ class SubHeader extends React.Component {
 
               {({ subheader: { title, breadcrumb } }) => (
                 <>
-                  <h3 className="kt-subheader__title">{title}</h3>
+                  <h3 className="kt-subheader__title d-none">{title}</h3>
                   <BreadCrumbs items={breadcrumb} />
                 </>
               )}

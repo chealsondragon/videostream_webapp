@@ -9,7 +9,7 @@ export default function DownloadFiles() {
       <div className="kt-portlet kt-portlet--height-fluid">
         <div className="kt-portlet__head">
           <div className="kt-portlet__head-label">
-            <h3 className="kt-portlet__head-title">Download Files</h3>
+            <h3 className="kt-portlet__head-title">Top Bought Movies</h3>
           </div>
 
           <PortletHeaderDropdown />

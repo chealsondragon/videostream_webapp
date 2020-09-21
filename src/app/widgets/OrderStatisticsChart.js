@@ -194,18 +194,16 @@ export default function OrderStatisticsChart() {
       <div className="kt-widget12__content">
         <div className="kt-widget12__item">
           <div className="kt-widget12__info">
-            <span className="kt-widget12__desc">Annual Taxes EMS</span>
-            <span className="kt-widget12__value">$400,000</span>
+            <span className="kt-widget12__desc">Annual Watched Hours</span>
+            <span className="kt-widget12__value">400,000 hr</span>
           </div>
           <div className="kt-widget12__info">
-            <span className="kt-widget12__desc">Finance Review Date</span>
-            <span className="kt-widget12__value">July 24,2019</span>
           </div>
         </div>
         <div className="kt-widget12__item">
           <div className="kt-widget12__info">
-            <span className="kt-widget12__desc">Avarage Revenue</span>
-            <span className="kt-widget12__value">$60M</span>
+            <span className="kt-widget12__desc">Avarage Hours Per User</span>
+            <span className="kt-widget12__value">$60K</span>
           </div>
           <div className="kt-widget12__info">
             <span className="kt-widget12__desc">Revenue Margin</span>

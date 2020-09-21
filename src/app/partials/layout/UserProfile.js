@@ -58,7 +58,7 @@ class UserProfile extends React.Component {
             <div className="kt-user-card__name">{user.fullname}</div>
             <div className="kt-user-card__badge">
               <span className="btn btn-success btn-sm btn-bold btn-font-md">
-                {user.user_id}
+                {user.email}
               </span>
             </div>
           </div>
@@ -67,11 +67,26 @@ class UserProfile extends React.Component {
               to="/change-password"
               className="kt-notification__item" href="/change-password">
               <div className="kt-notification__item-icon">
-                <i className="flaticon2-calendar-3 kt-font-success" />
+                <i className="fa fa-key text-success"></i>
               </div>
               <div className="kt-notification__item-details">
                 <div className="kt-notification__item-title kt-font-bold">
                   Change Password
+                </div>
+                {/* <div className="kt-notification__item-time">
+                  Account settings and more
+                </div> */}
+              </div>
+            </Link>
+            <Link
+              to="/profile"
+              className="kt-notification__item" href="/profile">
+              <div className="kt-notification__item-icon">
+                <i className="fa fa-user text-success"></i>
+              </div>
+              <div className="kt-notification__item-details">
+                <div className="kt-notification__item-title kt-font-bold">
+                  Change Profile
                 </div>
                 {/* <div className="kt-notification__item-time">
                   Account settings and more

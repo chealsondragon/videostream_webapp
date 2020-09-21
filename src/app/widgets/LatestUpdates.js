@@ -8,7 +8,7 @@ export default function LatestUpdates() {
       <div className="kt-portlet kt-portlet--height-fluid">
         <div className="kt-portlet__head">
           <div className="kt-portlet__head-label">
-            <h3 className="kt-portlet__head-title">Latest Updates</h3>
+            <h3 className="kt-portlet__head-title">Latest Watch</h3>
           </div>
           <PortletHeaderDropdown />
         </div>

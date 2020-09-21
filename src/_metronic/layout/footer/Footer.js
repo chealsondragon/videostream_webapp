@@ -13,17 +13,18 @@ class Footer extends React.Component {
       >
         <div className={`kt-container ${this.props.footerContainerClasses}`}>
           <div className="kt-footer__copyright">
-            {today.toString()}&nbsp;&copy;&nbsp;
             <a
               href="http://keenthemes.com/metronic"
               target="_blank"
               rel="noopener noreferrer"
               className="kt-link"
             >
-              IDC Influencer
+              VideoStream Admin
             </a>
+            &nbsp;-&nbsp;Daxiang&nbsp;
+            {today.toString()}&nbsp;&copy;&nbsp;
           </div>
-          <div className="kt-footer__menu">
+          <div className="kt-footer__menu d-none">
             <a
               href="http://keenthemes.com/metronic"
               target="_blank"

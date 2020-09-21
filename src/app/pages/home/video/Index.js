@@ -13,12 +13,13 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { injectIntl } from "react-intl";
 
-import {  Portlet,  PortletBody,  PortletHeader } from "../../partials/content/Portlet";
+import {  Portlet,  PortletBody,  PortletHeader } from "../../../partials/content/Portlet";
 
-import * as api from "../../crud/channel.crud"
-import { actions } from "../../store/ducks/channel.duck";
-import MySnackBar from "../../partials/MySnackBar";
-import MyAlertDialog from "../../partials/MyAlertDialog";
+import * as api from "../../../crud/videos.crud"
+import { actions } from "../../../store/ducks/videos.duck";
+import MySnackBar from "../../../partials/MySnackBar";
+import MyAlertDialog from "../../../partials/MyAlertDialog";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
   buttonProgress: {
@@ -38,7 +39,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function ChannelComp(props) {
+function MyComp(props) {
   const classes = useStyles();
   
   const [values, setValues] = React.useState({
@@ -77,11 +78,11 @@ function ChannelComp(props) {
     props.setLoading(true);
     api.loadAll()
       .then((result) => {
-        setValues(values => ({...values, success: "Loading channels success!"}));
+        setValues(values => ({...values, success: "Loading videos success!"}));
         props.loadAll(result.data || []);
       })
       .catch((error) => {
-        setValues(values => ({...values, error: "Error in loading channels!"}));
+        setValues(values => ({...values, error: "Error in loading videos!"}));
         props.setLoading(false);
       })
   }, []);
@@ -109,10 +110,10 @@ function ChannelComp(props) {
       api.update(row.id, row)
         .then((result) => {
           props.update(result.data)
-          setValues({...values, editingStatus: "", success: "Updating channel success!"})
+          setValues({...values, editingStatus: "", success: "Updating video success!"})
         })
         .catch((error) => {
-          setValues({...values, editingStatus: "", error: "Error in updating channel!"})
+          setValues({...values, editingStatus: "", error: "Error in updating video!"})
           props.setActionProgress(false);
         })
     }else{
@@ -120,10 +121,10 @@ function ChannelComp(props) {
       api.create(row)
         .then((result) => {
           props.create(result.data)
-          setValues({...values, editingStatus: "", success: "Creating channel success!"})
+          setValues({...values, editingStatus: "", success: "Creating video success!"})
         })
         .catch((error) => {
-          setValues({...values, editingStatus: "", error: "Error in creating channel!"})
+          setValues({...values, editingStatus: "", error: "Error in creating video!"})
           props.setActionProgress(false);
         })
     }
@@ -144,7 +145,7 @@ function ChannelComp(props) {
       ...values,
       confirmOpen: true,
       confirmTitle: "Confirm",
-      confirmMessage: "Do you want to delete selected channel?",
+      confirmMessage: "Do you want to delete selected video and all its files?",
       dataInline: row
     });
   }
@@ -159,10 +160,10 @@ function ChannelComp(props) {
     api.remove(row.id)
       .then((result) => {
         props.delete(row.id);
-        setValues({...values, confirmOpen:false, success: "Deleting channel success!"})
+        setValues({...values, confirmOpen:false, success: "Deleting video success!"})
       })
       .catch((error) => {
-        setValues({...values, confirmOpen:false, error: "Error in deleting channel!"})
+        setValues({...values, confirmOpen:false, error: "Error in deleting video!"})
         props.setActionProgress(false);
       })
       .finally(() => {
@@ -184,39 +185,51 @@ function ChannelComp(props) {
     setValues({ ...values, dataInline: { ...values.dataInline, [name]: event.target.value }});
   };
 
+  const typeString = ["", "Free", "Pay to Watch", "Basic Subscription", "Premium Subscription"];
+
   return (
     <>
       <Portlet>
-        <PortletHeader title="Manage Channels">
+        <PortletHeader title="Manage Videos">
         </PortletHeader>
         <PortletBody>
           <div className="mb-2">
-            <Button variant="contained" color="primary" onClick={() => onEditItem(null)}>
-              <AddIcon /> Add Channel
-            </Button>
-            {!!props.channel.isSaving && <CircularProgress size={20} thickness={5} className="ml-2"/>}
+            <Link to={`/edit_video/new`}>
+              <Button variant="contained" color="primary" onClick={() => onEditItem(null)}>
+                <AddIcon /> Add video
+              </Button>
+            </Link>
+            {!!props.videos.isSaving && <CircularProgress size={20} thickness={5} className="ml-2"/>}
           </div>
-          {!!props.channel.isLoading && <CircularProgress className={classes.progress} />}
-          {!props.channel.isLoading && <Paper className={classes.root}>
+          {!!props.videos.isLoading && <CircularProgress className={classes.progress} />}
+          {!props.videos.isLoading && <Paper className={classes.root}>
             <Table className={classes.table}>
               <TableHead>
                 <TableRow>
-                  <TableCell>Media</TableCell>
-                  <TableCell>Channel</TableCell>
+                  <TableCell>Title</TableCell>
+                  <TableCell>Category</TableCell>
+                  <TableCell>Description</TableCell>
+                  <TableCell>Serie/Single</TableCell>
+                  <TableCell>Files Uploaded</TableCell>
+                  <TableCell>Type</TableCell>
                   <TableCell>Actions</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {props.channel.list.map((row, index) => (
+                {props.videos.list.map((row, index) => (
                   <TableRow key={`data-${row.id}`}>
-                    <TableCell component="th" scope="row">
-                      {row.media}
-                    </TableCell>
-                    <TableCell>{row.channel}</TableCell>
+                    <TableCell component="th" scope="row">{row.title}</TableCell>
+                    <TableCell>{row.category && row.category.name}</TableCell>
+                    <TableCell>{row.description}</TableCell>
+                    <TableCell>{row.is_series ? "Serie" : "Single"}</TableCell>
+                    <TableCell>{(row.files && row.files.length) || 0}</TableCell>
+                    <TableCell>{row.type === 2 ? (typeString[row.type]+`(€${row.price||0})`) : (typeString[row.type] || "Default")}</TableCell>
                     <TableCell className="p-0">
-                      <IconButton aria-label="Edit" onClick={() => onEditItem(row)}>
-                        <EditIcon />
-                      </IconButton>
+                      <Link to={`/edit_video/${row.id}`}>
+                        <IconButton aria-label="Edit">
+                          <EditIcon />
+                        </IconButton>
+                      </Link>
                       <IconButton aria-label="Delete" onClick={() => onDeleteItem(row)}>
                         <DeleteIcon />
                       </IconButton>
@@ -250,22 +263,22 @@ function ChannelComp(props) {
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
-          <DialogTitle id="alert-dialog-title">{values.editingStatus} Channel</DialogTitle>
+          <DialogTitle id="alert-dialog-title">{values.editingStatus} video</DialogTitle>
           <DialogContent>
             <div className="row row-full-height ml-1 mt-0">
               <TextField
-                key="cur-pass"
-                label="Media"
-                value={(values.dataInline && values.dataInline.media) || ""}
-                onChange={handleChange("media")}
+                key="name"
+                label="Name"
+                value={(values.dataInline && values.dataInline.name) || ""}
+                onChange={handleChange("name")}
                 margin="normal"
               />
               <br />
               <TextField
-                key="new-pass"
-                label="Channel"
-                value={(values.dataInline && values.dataInline.channel) || ""}
-                onChange={handleChange("channel")}
+                key="description"
+                label="Description"
+                value={(values.dataInline && values.dataInline.description) || ""}
+                onChange={handleChange("description")}
                 margin="normal"
               />
             </div>
@@ -287,7 +300,7 @@ function ChannelComp(props) {
 
 export default injectIntl(
   connect(
-    ({ channel }) => ({ channel }),
+    ({ videos }) => ({ videos }),
     actions
-  )(ChannelComp)
+  )(MyComp)
 );

@@ -43,7 +43,7 @@ export default function AuthPage() {
             <div className="kt-grid__item">
               <Link to="/" className="kt-auth__logo">
                 <h1>
-                  Influencer IDC
+                  ADMIN-VideoStream
                 </h1>
                 {/* <img
                   alt="Logo"

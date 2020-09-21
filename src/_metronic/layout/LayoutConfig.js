@@ -73,7 +73,7 @@ export const initLayoutConfig = {
       },
       mobile: {
         submenu: {
-          skin: "dark",
+          skin: "light",
           accordion: true
         }
       }
@@ -94,12 +94,12 @@ export const initLayoutConfig = {
   },
   brand: {
     self: {
-      skin: "dark"
+      skin: "light"
     }
   },
   aside: {
     self: {
-      skin: "dark",
+      skin: "light",
       display: true,
       fixed: true,
       minimize: {

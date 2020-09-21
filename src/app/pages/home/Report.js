@@ -212,7 +212,7 @@ function ReportComp(props) {
       <MySnackBar 
         open={values.snackOpen} 
         message={values.snackMessage} 
-        onClose={()=>setValues({...values, snackOpen: false})}
+        onClose={()=>setValues({...values, snackOpen: false, error: "", success: ""})}
         variant={values.snackType}
         vertical="top"
         horizontal="right"

@@ -31,10 +31,6 @@ function Profile(props) {
     lastname: props.user.lastname,
     email: props.user.email,
 
-    address_line1: props.user.address_line1 || "",
-    address_line2: props.user.address_line2 || "",
-    vat_number: props.user.vat_number || "",
-
     isSaving: false,
     error: "",
     success: ""
@@ -98,30 +94,6 @@ function Profile(props) {
                 label="Email"
                 value={values.email}
                 onChange={handleChange("email")}
-                margin="normal"
-              />
-              <br />
-              <TextField
-                key="address_line1"
-                label="Address Line1"
-                value={values.address_line1}
-                onChange={handleChange("address_line1")}
-                margin="normal"
-              />
-              <br />
-              <TextField
-                key="address_line2"
-                label="Address Line2"
-                value={values.address_line2}
-                onChange={handleChange("address_line2")}
-                margin="normal"
-              />
-              <br />
-              <TextField
-                key="vat_number"
-                label="Vat Number"
-                value={values.vat_number}
-                onChange={handleChange("vat_number")}
                 margin="normal"
               />
               <br />

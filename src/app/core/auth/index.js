@@ -61,8 +61,6 @@ export async function getUserByToken() {
   try {
     const profile = await auth.getUserByToken();
 
-    console.log('heelllo');
-    console.log(profile);
     return { data: profile };
   }
   catch (error) {

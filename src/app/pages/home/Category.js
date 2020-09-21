@@ -15,8 +15,8 @@ import { injectIntl } from "react-intl";
 
 import {  Portlet,  PortletBody,  PortletHeader } from "../../partials/content/Portlet";
 
-import * as api from "../../crud/channel.crud"
-import { actions } from "../../store/ducks/channel.duck";
+import * as api from "../../crud/categories.crud"
+import { actions } from "../../store/ducks/categories.duck";
 import MySnackBar from "../../partials/MySnackBar";
 import MyAlertDialog from "../../partials/MyAlertDialog";
 
@@ -38,7 +38,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function ChannelComp(props) {
+function CategoryComp(props) {
   const classes = useStyles();
   
   const [values, setValues] = React.useState({
@@ -77,11 +77,11 @@ function ChannelComp(props) {
     props.setLoading(true);
     api.loadAll()
       .then((result) => {
-        setValues(values => ({...values, success: "Loading channels success!"}));
+        setValues(values => ({...values, success: "Loading categories success!"}));
         props.loadAll(result.data || []);
       })
       .catch((error) => {
-        setValues(values => ({...values, error: "Error in loading channels!"}));
+        setValues(values => ({...values, error: "Error in loading categories!"}));
         props.setLoading(false);
       })
   }, []);
@@ -109,10 +109,10 @@ function ChannelComp(props) {
       api.update(row.id, row)
         .then((result) => {
           props.update(result.data)
-          setValues({...values, editingStatus: "", success: "Updating channel success!"})
+          setValues({...values, editingStatus: "", success: "Updating category success!"})
         })
         .catch((error) => {
-          setValues({...values, editingStatus: "", error: "Error in updating channel!"})
+          setValues({...values, editingStatus: "", error: "Error in updating category!"})
           props.setActionProgress(false);
         })
     }else{
@@ -120,10 +120,10 @@ function ChannelComp(props) {
       api.create(row)
         .then((result) => {
           props.create(result.data)
-          setValues({...values, editingStatus: "", success: "Creating channel success!"})
+          setValues({...values, editingStatus: "", success: "Creating category success!"})
         })
         .catch((error) => {
-          setValues({...values, editingStatus: "", error: "Error in creating channel!"})
+          setValues({...values, editingStatus: "", error: "Error in creating category!"})
           props.setActionProgress(false);
         })
     }
@@ -144,7 +144,7 @@ function ChannelComp(props) {
       ...values,
       confirmOpen: true,
       confirmTitle: "Confirm",
-      confirmMessage: "Do you want to delete selected channel?",
+      confirmMessage: "Do you want to delete selected category?",
       dataInline: row
     });
   }
@@ -159,10 +159,10 @@ function ChannelComp(props) {
     api.remove(row.id)
       .then((result) => {
         props.delete(row.id);
-        setValues({...values, confirmOpen:false, success: "Deleting channel success!"})
+        setValues({...values, confirmOpen:false, success: "Deleting category success!"})
       })
       .catch((error) => {
-        setValues({...values, confirmOpen:false, error: "Error in deleting channel!"})
+        setValues({...values, confirmOpen:false, error: "Error in deleting category!"})
         props.setActionProgress(false);
       })
       .finally(() => {
@@ -187,32 +187,32 @@ function ChannelComp(props) {
   return (
     <>
       <Portlet>
-        <PortletHeader title="Manage Channels">
+        <PortletHeader title="Manage Categories">
         </PortletHeader>
         <PortletBody>
           <div className="mb-2">
             <Button variant="contained" color="primary" onClick={() => onEditItem(null)}>
-              <AddIcon /> Add Channel
+              <AddIcon /> Add Category
             </Button>
-            {!!props.channel.isSaving && <CircularProgress size={20} thickness={5} className="ml-2"/>}
+            {!!props.categories.isSaving && <CircularProgress size={20} thickness={5} className="ml-2"/>}
           </div>
-          {!!props.channel.isLoading && <CircularProgress className={classes.progress} />}
-          {!props.channel.isLoading && <Paper className={classes.root}>
+          {!!props.categories.isLoading && <CircularProgress className={classes.progress} />}
+          {!props.categories.isLoading && <Paper className={classes.root}>
             <Table className={classes.table}>
               <TableHead>
                 <TableRow>
-                  <TableCell>Media</TableCell>
-                  <TableCell>Channel</TableCell>
+                  <TableCell>Name</TableCell>
+                  <TableCell>Description</TableCell>
                   <TableCell>Actions</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {props.channel.list.map((row, index) => (
+                {props.categories.list.map((row, index) => (
                   <TableRow key={`data-${row.id}`}>
                     <TableCell component="th" scope="row">
-                      {row.media}
+                      {row.name}
                     </TableCell>
-                    <TableCell>{row.channel}</TableCell>
+                    <TableCell>{row.description}</TableCell>
                     <TableCell className="p-0">
                       <IconButton aria-label="Edit" onClick={() => onEditItem(row)}>
                         <EditIcon />
@@ -250,22 +250,22 @@ function ChannelComp(props) {
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
-          <DialogTitle id="alert-dialog-title">{values.editingStatus} Channel</DialogTitle>
+          <DialogTitle id="alert-dialog-title">{values.editingStatus} category</DialogTitle>
           <DialogContent>
             <div className="row row-full-height ml-1 mt-0">
               <TextField
-                key="cur-pass"
-                label="Media"
-                value={(values.dataInline && values.dataInline.media) || ""}
-                onChange={handleChange("media")}
+                key="name"
+                label="Name"
+                value={(values.dataInline && values.dataInline.name) || ""}
+                onChange={handleChange("name")}
                 margin="normal"
               />
               <br />
               <TextField
-                key="new-pass"
-                label="Channel"
-                value={(values.dataInline && values.dataInline.channel) || ""}
-                onChange={handleChange("channel")}
+                key="description"
+                label="Description"
+                value={(values.dataInline && values.dataInline.description) || ""}
+                onChange={handleChange("description")}
                 margin="normal"
               />
             </div>
@@ -287,7 +287,7 @@ function ChannelComp(props) {
 
 export default injectIntl(
   connect(
-    ({ channel }) => ({ channel }),
+    ({ categories }) => ({ categories }),
     actions
-  )(ChannelComp)
+  )(CategoryComp)
 );

@@ -8,8 +8,17 @@ import ChangePassword from "./ChangePassword";
 
 import Profile from "./Profile";
 import Channels from "./Channels";
-import Links from "./Links";
 import Report from "./Report";
+
+import Users from "./Users";
+import Category from "./Category";
+
+import Videos from './video/Index';
+import VideoFiles from './video/Files';
+
+import ReportVideo from "./report/Video";
+import ReportUser from "./report/User";
+import ReportPayment from "./report/Payment";
 
 import { LayoutSplashScreen } from "../../../_metronic";
 
@@ -31,7 +40,7 @@ export default function HomePage() {
       <Switch>
         {
           /* Redirect from root URL to /dashboard. */
-          <Redirect exact from="/" to="/report" />
+          <Redirect exact from="/" to="/stats_video" />
         }
         <Route path="/builder" component={Builder} />
         <Route path="/dashboard" component={Dashboard} />
@@ -41,9 +50,19 @@ export default function HomePage() {
         <Route path="/docs" component={DocsPage} />
         
         <Route path="/profile" component={Profile} />
-        <Route path="/channels" component={Channels} />
-        <Route path="/links" component={Links} />
+        {/* <Route path="/channels" component={Channels} />
+        <Route path="/links" component={Links} /> */}
         <Route path="/report" component={Report} />
+
+        <Route path="/users" component={Users} />
+        <Route path="/categories" component={Category} />
+        
+        <Route path="/videos" component={Videos} />
+        <Route path="/edit_video/:id" component={VideoFiles} />
+
+        <Route path="/stats_video" component={ReportVideo} />
+        <Route path="/stats_user" component={ReportUser} />
+        <Route path="/payment" component={ReportPayment} />
 
         <Redirect to="/error/error-v1" />
       </Switch>
