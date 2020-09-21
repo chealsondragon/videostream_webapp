@@ -451,7 +451,7 @@ function MyComp(props) {
                         <DeleteIcon />
                       </IconButton>
                     </div>
-                    <img className={classes.imgVideoFile} src={`${process.env.REACT_APP_API_BASE_URL || "/"}/storage/videos/${row.logo_path}`}
+                    <img className={classes.imgVideoFile} src={`${process.env.REACT_APP_API_BASE_URL || ""}/storage/videos/${row.logo_path}`}
                       onClick={() => playVideo(`${process.env.REACT_APP_API_BASE_URL || "/"}/storage/videos/${row.file_path}`)}>
                     </img>
                   </div>
