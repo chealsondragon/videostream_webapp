@@ -1,20 +1,24 @@
 import React, { Suspense, lazy } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 
+import URL from "../../helpers/url";
+
 import Builder from "./Builder";
 import Dashboard from "./Dashboard";
 import DocsPage from "./docs/DocsPage";
+
 import ChangePassword from "./ChangePassword";
-
 import Profile from "./Profile";
-import Channels from "./Channels";
-import Report from "./Report";
-
+import ProfileType from "./ProfileType";
 import Users from "./Users";
+
+import Lang from "./Lang";
+import Plan from "./Plan";
+import SerieType from "./SerieType";
 import Category from "./Category";
 
-import Videos from './video/Index';
-import VideoFiles from './video/Files';
+import Video from './video/Index';
+import EditVideo from './video/Edit';
 
 import ReportVideo from "./report/Video";
 import ReportUser from "./report/User";
@@ -40,31 +44,32 @@ export default function HomePage() {
       <Switch>
         {
           /* Redirect from root URL to /dashboard. */
-          <Redirect exact from="/" to="/stats_video" />
+          <Redirect exact from="/" to={URL.STATS_VIDEO()} />
         }
-        <Route path="/builder" component={Builder} />
-        <Route path="/dashboard" component={Dashboard} />
-        <Route path="/change-password" component={ChangePassword} />
-        <Route path="/google-material" component={GoogleMaterialPage} />
-        <Route path="/react-bootstrap" component={ReactBootstrapPage} />
-        <Route path="/docs" component={DocsPage} />
+        <Route path={URL.BUILDER()} component={Builder} />
+        <Route path={URL.DASHBOARD()} component={Dashboard} />
+        <Route path={URL.GOOGLE_MATERIAL()} component={GoogleMaterialPage} />
+        <Route path={URL.REACT_BOOTSTRAP()} component={ReactBootstrapPage} />
+        <Route path={URL.DOCS()} component={DocsPage} />
         
-        <Route path="/profile" component={Profile} />
-        {/* <Route path="/channels" component={Channels} />
-        <Route path="/links" component={Links} /> */}
-        <Route path="/report" component={Report} />
+        <Route path={URL.CHANGE_PASSWORD()} component={ChangePassword} />
+        <Route path={URL.PROFILE()} component={Profile} />
+        <Route path={URL.PROFILE_TYPE()} component={ProfileType} />
+        <Route path={URL.USERS()} component={Users} />
 
-        <Route path="/users" component={Users} />
-        <Route path="/categories" component={Category} />
+        <Route path={URL.PLAN()} component={Plan} />
+        <Route path={URL.LANG()} component={Lang} />
+        <Route path={URL.SERIE_TYPE()} component={SerieType} />
+        <Route path={URL.CATEGORY()} component={Category} />
         
-        <Route path="/videos" component={Videos} />
-        <Route path="/edit_video/:id" component={VideoFiles} />
+        <Route path={URL.LIST_VIDEO()} component={Video} />
+        <Route path={URL.EDIT_VIDEO()} component={EditVideo} />
 
-        <Route path="/stats_video" component={ReportVideo} />
-        <Route path="/stats_user" component={ReportUser} />
-        <Route path="/payment" component={ReportPayment} />
+        <Route path={URL.STATS_VIDEO()} component={ReportVideo} />
+        <Route path={URL.STATS_USER()} component={ReportUser} />
+        <Route path={URL.STATS_PAYMENT()} component={ReportPayment} />
 
-        <Redirect to="/error/error-v1" />
+        <Redirect to={URL.NOTFOUND()} />
       </Switch>
     </Suspense>
   );

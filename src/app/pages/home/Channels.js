@@ -159,14 +159,11 @@ function ChannelComp(props) {
     api.remove(row.id)
       .then((result) => {
         props.delete(row.id);
-        setValues({...values, confirmOpen:false, success: "Deleting channel success!"})
+        setValues({...values, confirmOpen:false, success: "Deleting channel success!", dataInline: null})
       })
       .catch((error) => {
-        setValues({...values, confirmOpen:false, error: "Error in deleting channel!"})
+        setValues({...values, confirmOpen:false, error: "Error in deleting channel!", dataInline: null})
         props.setActionProgress(false);
-      })
-      .finally(() => {
-        setValues({...values, confirmOpen:false, dataInline: null})
       })
   }
 

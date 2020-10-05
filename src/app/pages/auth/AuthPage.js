@@ -6,6 +6,8 @@ import Login from "./Login";
 import { Helmet } from "react-helmet";
 import "../../../_metronic/_assets/sass/pages/login/login-1.scss";
 
+import URL from "../../helpers/url";
+
 
 export default function AuthPage() {
   useEffect(() => {
@@ -41,7 +43,7 @@ export default function AuthPage() {
         >
           <div className="auth-panel">
             <div className="kt-grid__item">
-              <Link to="/" className="kt-auth__logo">
+              <Link to={URL.INDEX()} className="kt-auth__logo">
                 <h1>
                   ADMIN-VideoStream
                 </h1>
@@ -53,14 +55,14 @@ export default function AuthPage() {
             </div>
 
             <Switch>
-              <Route path="/auth/login" component={Login} />
-              <Route path="/auth/registration" component={Registration} />
+              <Route path={URL.LOGIN()} component={Login} />
+              <Route path={URL.REGISTER()} component={Registration} />
               <Route
-                path="/auth/forgot-password"
+                path={URL.FORGOT_PASSWORD()}
                 component={ForgotPassword}
               />
 
-              <Redirect from="/auth" exact={true} to="/auth/login" />
+              <Redirect from={URL.AUTH()} exact={true} to={URL.LOGIN()} />
             </Switch>
 
             <div className="kt-auth__footer">

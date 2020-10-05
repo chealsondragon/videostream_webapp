@@ -3,6 +3,10 @@ import { connect } from "react-redux";
 import { makeStyles } from '@material-ui/core/styles';
 import { green } from '@material-ui/core/colors';
 import {  TextField,  Button, Paper, Table, TableCell, TableBody, TableHead, TableRow, IconButton } from "@material-ui/core";
+import Chip from '@material-ui/core/Chip';
+
+import URL from "../../../helpers/url";
+
 import AddIcon from '@material-ui/icons/Add';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -36,6 +40,13 @@ const useStyles = makeStyles(theme => ({
   },
   table: {
     minWidth: 650,
+  },
+  chips: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  chip: {
+    margin: 2,
   },
 }));
 
@@ -160,14 +171,11 @@ function MyComp(props) {
     api.remove(row.id)
       .then((result) => {
         props.delete(row.id);
-        setValues({...values, confirmOpen:false, success: "Deleting video success!"})
+        setValues({...values, confirmOpen:false, success: "Deleting video success!", dataInline: null})
       })
       .catch((error) => {
-        setValues({...values, confirmOpen:false, error: "Error in deleting video!"})
+        setValues({...values, confirmOpen:false, error: "Error in deleting video!", dataInline: null})
         props.setActionProgress(false);
-      })
-      .finally(() => {
-        setValues({...values, confirmOpen:false, dataInline: null})
       })
   }
 
@@ -185,8 +193,6 @@ function MyComp(props) {
     setValues({ ...values, dataInline: { ...values.dataInline, [name]: event.target.value }});
   };
 
-  const typeString = ["", "Free", "Pay to Watch", "Basic Subscription", "Premium Subscription"];
-
   return (
     <>
       <Portlet>
@@ -194,7 +200,7 @@ function MyComp(props) {
         </PortletHeader>
         <PortletBody>
           <div className="mb-2">
-            <Link to={`/edit_video/new`}>
+            <Link to={URL.EDIT_VIDEO({id: "new"})}>
               <Button variant="contained" color="primary" onClick={() => onEditItem(null)}>
                 <AddIcon /> Add video
               </Button>
@@ -207,11 +213,11 @@ function MyComp(props) {
               <TableHead>
                 <TableRow>
                   <TableCell>Title</TableCell>
+                  <TableCell>Serie Type</TableCell>
                   <TableCell>Category</TableCell>
                   <TableCell>Description</TableCell>
-                  <TableCell>Serie/Single</TableCell>
-                  <TableCell>Files Uploaded</TableCell>
-                  <TableCell>Type</TableCell>
+                  <TableCell>Watch Under<br/>(At least 1 Required)</TableCell>
+                  <TableCell>Activate/Deactivate At</TableCell>
                   <TableCell>Actions</TableCell>
                 </TableRow>
               </TableHead>
@@ -219,13 +225,36 @@ function MyComp(props) {
                 {props.videos.list.map((row, index) => (
                   <TableRow key={`data-${row.id}`}>
                     <TableCell component="th" scope="row">{row.title}</TableCell>
-                    <TableCell>{row.category && row.category.name}</TableCell>
+                    <TableCell>
+                      {row.serie_type &&
+                        <span className="text-primary">
+                          {row.serie_type.name}<br/>
+                          <span className="text-success">
+                            {row.serie_type.depth > 0 && row.serie_type.name_depth1}
+                            {row.serie_type.depth > 1 && " > " + row.serie_type.name_depth2}
+                            {row.serie_type.depth > 2 && " > " + row.serie_type.name_depth3}
+                            {row.serie_type.depth > 3 && " > " + row.serie_type.name_depth4}
+                            {row.serie_type.depth > 4 && " > " + row.serie_type.name_depth5}
+                          </span>
+                        </span>
+                      }<br/>
+                    </TableCell>
+                    <TableCell>
+                      <div className={classes.chips}>
+                        {row && row.categories && row.categories.map(entry => (
+                          entry.category && <Chip key={entry.category_id} label={entry.category.name || ""} className={classes.chip} />
+                        ))}
+                      </div>
+                    </TableCell>
                     <TableCell>{row.description}</TableCell>
-                    <TableCell>{row.is_series ? "Serie" : "Single"}</TableCell>
-                    <TableCell>{(row.files && row.files.length) || 0}</TableCell>
-                    <TableCell>{row.type === 2 ? (typeString[row.type]+`(€${row.price||0})`) : (typeString[row.type] || "Default")}</TableCell>
+                    <TableCell>
+                      <span className="text-success">Pay per hr: </span>{row.price_per_hour || 0}$<br/>
+                      <span className="text-success">Pay total: </span>{row.price_to_buy || 0}$<br/>
+                      <span className="text-success">Plan: </span>{row.condition_plan && row.condition_plan.name}
+                    </TableCell>
+                    <TableCell>{row.activate_at || "Not Defined"}/{row.deactivate_at || "Not Defined"}</TableCell>
                     <TableCell className="p-0">
-                      <Link to={`/edit_video/${row.id}`}>
+                      <Link to={URL.EDIT_VIDEO({id: row.id})}>
                         <IconButton aria-label="Edit">
                           <EditIcon />
                         </IconButton>

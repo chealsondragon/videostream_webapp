@@ -48,7 +48,6 @@ export const Routes = withRouter(({ history }) => {
 
         {!isAuthorized ? (
           /* Redirect to `/auth` when user is not authorized */
-          /* <Redirect to="/auth/login" /> */
           <Redirect from="/" to="/auth" />
         ) : (
             <Layout>

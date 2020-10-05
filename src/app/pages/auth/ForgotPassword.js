@@ -6,6 +6,7 @@ import { Link, Redirect } from "react-router-dom";
 import { FormattedMessage, injectIntl } from "react-intl";
 import * as auth from "../../store/ducks/auth.duck";
 import { forgotPassword } from "../../core/auth";
+import URL from "../../helpers/url";
 
 class ForgotPassword extends Component {
   state = { isRequested: false };
@@ -15,7 +16,7 @@ class ForgotPassword extends Component {
     const { isRequested } = this.state;
 
     if (isRequested) {
-      return <Redirect to="/auth" />;
+      return <Redirect to={URL.AUTH()} />;
     }
 
     return (
@@ -99,7 +100,7 @@ class ForgotPassword extends Component {
                     </button>
 
                 <Link
-                  to="/auth"
+                  to={URL.AUTH()}
                   className="btn btn-secondary btn-elevate kt-login__btn-secondary"
                 >
                   Back

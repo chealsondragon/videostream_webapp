@@ -2,10 +2,12 @@ import { all } from "redux-saga/effects";
 import { combineReducers } from "redux";
 
 import * as auth from "./ducks/auth.duck";
-// import * as channel from "./ducks/channel.duck";
-// import * as link from "./ducks/link.duck";
-// import * as offer from "./ducks/offer.duck";
 import * as report from "./ducks/report.duck";
+
+import * as language from "./ducks/language.duck";
+import * as plan from "./ducks/plan.duck";
+import * as profile_type from "./ducks/profile_type.duck";
+import * as serie_type from "./ducks/serie_type.duck";
 
 import * as users from "./ducks/users.duck";
 import * as categories from "./ducks/categories.duck";
@@ -16,10 +18,12 @@ import { metronic } from "../../_metronic";
 
 export const rootReducer = combineReducers({
   auth: auth.reducer,
-  // channel: channel.reducer,
-  // link: link.reducer,
-  // offer: offer.reducer,
   report: report.reducer,
+
+  language: language.reducer,
+  plan: plan.reducer,
+  profile_type: profile_type.reducer,
+  serie_type: serie_type.reducer,
 
   users: users.reducer,
   categories: categories.reducer,

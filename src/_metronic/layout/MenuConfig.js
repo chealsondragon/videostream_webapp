@@ -1,59 +1,15 @@
+import URL from "../../app/helpers/url";
+
 export default {
   header: {
     self: {},
     items: [
-      // {
-      //   title: "ParetnSample-1",
-      //   root: true,
-      //   alignment: "left",
-      //   toggle: "click",
-      //   // page: 'channels',
-      //   submenu: [
-      //     {
-      //       title: "Child1",
-      //       icon: "flaticon2-expand",
-      //       page: "builder"
-      //     },
-      //     {
-      //       title: "Child2",
-      //       bullet: "dot",
-      //       icon: "flaticon2-warning",
-      //       submenu: [
-      //         {
-      //           title: "Child2-1",
-      //           page: "error/error-v1"
-      //         },
-      //         {
-      //           title: "Child2-2",
-      //           page: "error/error-v2"
-      //         },
-      //         {
-      //           title: "Error 3",
-      //           page: "error/error-v3"
-      //         },
-      //         {
-      //           title: "Error 4",
-      //           page: "error/error-v4"
-      //         },
-      //         {
-      //           title: "Error 5",
-      //           page: "error/error-v5"
-      //         },
-      //         {
-      //           title: "Error 6",
-      //           page: "error/error-v6"
-      //         }
-      //       ]
-      //     }
-      //   ]
-      // },
       {
         title: "Users",
         root: true,
         alignment: "left",
         toggle: "click",
         page: 'users',
-        translate: 'MENU.USERS'
       },
       { section: 'Data' },
       {
@@ -62,15 +18,13 @@ export default {
         alignment: "left",
         toggle: "click",
         page: 'categories',
-        translate: 'MENU.CATEGORY'
       },
       {
         title: "Video",
         root: true,
         alignment: "left",
         toggle: "click",
-        page: "videos",
-        translate: 'MENU.VIDEO'
+        page: "video",
       },
       {
         title: "Report",
@@ -84,7 +38,6 @@ export default {
             alignment: "left",
             toggle: "click",
             page: "stats_video",
-            translate: 'MENU.STATS_VIDEO'
           },
           {
             title: "Per User",
@@ -92,7 +45,6 @@ export default {
             alignment: "left",
             toggle: "click",
             page: "stats_user",
-            translate: 'MENU.STATS_USER'
           },
           {
             title: "Per Payment",
@@ -100,7 +52,6 @@ export default {
             alignment: "left",
             toggle: "click",
             page: "payment",
-            translate: 'MENU.PAYMENT'
           }
         ]
       },
@@ -109,33 +60,64 @@ export default {
   aside: {
     self: {},
     items: [
+      { section: 'Account' },
       {
-        title: "Users",
+        title: "Membership Plan",
+        root: true,
+        icon: "fa fa-user-plus",
+        alignment: "left",
+        toggle: "click",
+        page: URL.PLAN(),
+      },
+      {
+        title: "Profile Type",
+        root: true,
+        icon: "fa fa-user",
+        alignment: "left",
+        toggle: "click",
+        page: URL.PROFILE_TYPE(),
+      },
+      {
+        title: "User & Profile",
         root: true,
         icon: "fa fa-users",
         alignment: "left",
         toggle: "click",
-        page: 'users',
-        translate: 'MENU.USERS'
+        page: URL.USERS(),
       },
-      { section: 'Data' },
+      { section: 'VIDEO CONFIGURATION' },
       {
-        title: "Category",
+        title: "Language",
+        root: true,
+        icon: "fa fa-language",
+        alignment: "left",
+        toggle: "click",
+        page: URL.LANG(),
+      },
+      {
+        title: "Serie Type",
         root: true,
         icon: "fa fa-list",
         alignment: "left",
         toggle: "click",
-        page: 'categories',
-        translate: 'MENU.CATEGORY'
+        page: URL.SERIE_TYPE(),
       },
       {
-        title: "Video",
+        title: "Video Category",
+        root: true,
+        icon: "fa fa-tag",
+        alignment: "left",
+        toggle: "click",
+        page: URL.CATEGORY(),
+      },
+      { section: 'DATA' },
+      {
+        title: "Upload Video",
         root: true,
         icon: "fa fa-video",
         alignment: "left",
         toggle: "click",
-        page: "videos",
-        translate: 'MENU.VIDEO'
+        page: URL.LIST_VIDEO(),
       },
       { section: 'Report' },
       {
@@ -144,8 +126,7 @@ export default {
         icon: "fas fa-file",
         alignment: "left",
         toggle: "click",
-        page: "stats_video",
-        translate: 'MENU.STATS_VIDEO'
+        page: URL.STATS_VIDEO(),
       },
       {
         title: "Per User",
@@ -153,8 +134,7 @@ export default {
         icon: "fa fa-file",
         alignment: "left",
         toggle: "click",
-        page: "stats_user",
-        translate: 'MENU.STATS_USER'
+        page: URL.STATS_USER(),
       },
       {
         title: "Per Payment",
@@ -162,8 +142,7 @@ export default {
         icon: "fa fa-money-bill",
         alignment: "left",
         toggle: "click",
-        page: "payment",
-        translate: 'MENU.PAYMENT'
+        page: URL.STATS_PAYMENT(),
       }
     ]
   }

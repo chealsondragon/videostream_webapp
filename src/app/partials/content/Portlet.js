@@ -109,6 +109,7 @@ export const PortletHeader = forwardRef(
         )}
 
         {toolbar}
+        {props.children}
       </div>
     );
   }

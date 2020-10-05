@@ -97,7 +97,7 @@ export default class MenuItem extends React.Component {
         data-ktmenu-dropdown-toggle-class={item["dropdown-toggle-class"]}
       >
         {!item.submenu && (
-          <Link to={`/${item.page}`} className="kt-menu__link kt-menu__toggle">
+          <Link to={`${item.page}`} className="kt-menu__link kt-menu__toggle">
             <MenuItemText item={item} parentItem={parentItem} />
           </Link>
         )}

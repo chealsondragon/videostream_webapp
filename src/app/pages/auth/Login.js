@@ -7,6 +7,7 @@ import { TextField } from "@material-ui/core";
 import clsx from "clsx";
 import * as auth from "../../store/ducks/auth.duck";
 import { login } from "../../crud/auth.crud";
+import URL from "../../helpers/url";
 
 function Login(props) {
   const { intl } = props;
@@ -135,7 +136,7 @@ function Login(props) {
 
               <div className="kt-login__forgot">
                 <Link
-                  to="/auth/forgot-password"
+                  to={URL.FORGOT_PASSWORD()}
                   className="kt-link kt-login__link-forgot"
                 >
                   <FormattedMessage id="AUTH.GENERAL.FORGOT_BUTTON" />
@@ -160,7 +161,7 @@ function Login(props) {
                 <span className="kt-login__signup-label">
                   Not a member?
                   </span>
-                <Link to="/auth/registration" className="kt-link kt-login__signup-link">
+                <Link to={URL.REGISTER()} className="kt-link kt-login__signup-link">
                   Create account
                   </Link>
               </div>

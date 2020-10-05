@@ -1,10 +1,10 @@
 import axios from "axios";
 
-export const CREATE_URL = "api/admin/user";
-export const UPDATE_URL = "api/admin/user/{id}";
-export const DELETE_URL = "api/admin/user/{id}";
-export const LOAD_URL = "api/admin/user/{id}";
-export const LOAD_ALL_URL = "api/admin/user";
+export const CREATE_URL = "api/admin/plan";
+export const UPDATE_URL = "api/admin/plan/{id}";
+export const DELETE_URL = "api/admin/plan/{id}";
+export const LOAD_URL = "api/admin/plan/{id}";
+export const LOAD_ALL_URL = "api/admin/plan";
 
 export function create(data) {
   return axios.post(CREATE_URL, data);
@@ -22,6 +22,6 @@ export function load(id) {
   return axios.get(LOAD_URL.replace("{id}", id));
 }
 
-export function loadAll(name = "") {
-  return axios.get(`${LOAD_ALL_URL}?name=${name}`);
+export function loadAll() {
+  return axios.get(LOAD_ALL_URL);
 }

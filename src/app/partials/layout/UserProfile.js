@@ -5,6 +5,7 @@ import Dropdown from "react-bootstrap/Dropdown";
 import { connect } from "react-redux";
 import { toAbsoluteUrl } from "../../../_metronic";
 import HeaderDropdownToggle from "../content/CustomDropdowns/HeaderDropdownToggle";
+import URL from "../../helpers/url";
 
 class UserProfile extends React.Component {
   render() {
@@ -64,7 +65,7 @@ class UserProfile extends React.Component {
           </div>
           <div className="kt-notification">
             <Link
-              to="/change-password"
+              to={URL.CHANGE_PASSWORD()}
               className="kt-notification__item" href="/change-password">
               <div className="kt-notification__item-icon">
                 <i className="fa fa-key text-success"></i>
@@ -79,14 +80,14 @@ class UserProfile extends React.Component {
               </div>
             </Link>
             <Link
-              to="/profile"
+              to={URL.PROFILE()}
               className="kt-notification__item" href="/profile">
               <div className="kt-notification__item-icon">
                 <i className="fa fa-user text-success"></i>
               </div>
               <div className="kt-notification__item-details">
                 <div className="kt-notification__item-title kt-font-bold">
-                  Change Profile
+                  Change Account Info
                 </div>
                 {/* <div className="kt-notification__item-time">
                   Account settings and more
@@ -134,7 +135,7 @@ class UserProfile extends React.Component {
             </a>
             <div className="kt-notification__custom">
               <Link
-                to="/logout"
+                to={URL.LOGOUT()}
                 className="btn btn-label-brand btn-sm btn-bold"
               >
                 Sign Out

@@ -2,11 +2,12 @@ import React from "react";
 import { connect } from "react-redux";
 import { makeStyles } from '@material-ui/core/styles';
 import { green } from '@material-ui/core/colors';
-import {  TextField,  Button, Paper, Table, TableCell, TableBody, TableHead, TableRow, IconButton, Select } from "@material-ui/core";
+import {  TextField,  Button, Paper, Table, TableCell, TableBody, TableHead, TableRow, IconButton } from "@material-ui/core";
+
+import AddIcon from '@material-ui/icons/Add';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import MenuItem from '@material-ui/core/MenuItem';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -15,12 +16,10 @@ import { injectIntl } from "react-intl";
 
 import {  Portlet,  PortletBody,  PortletHeader } from "../../partials/content/Portlet";
 
-import * as api from "../../crud/users.crud"
-import { actions } from "../../store/ducks/users.duck";
+import * as api from "../../crud/language.crud"
+import { actions } from "../../store/ducks/language.duck";
 import MySnackBar from "../../partials/MySnackBar";
 import MyAlertDialog from "../../partials/MyAlertDialog";
-
-var moment = require('moment'); // require
 
 const useStyles = makeStyles(theme => ({
   buttonProgress: {
@@ -38,16 +37,55 @@ const useStyles = makeStyles(theme => ({
   table: {
     minWidth: 650,
   },
+
+  formControl: {
+    minWidth: 120,
+    maxWidth: 500,
+  },
+  chips: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  chip: {
+    margin: 2,
+  },
+  svgFlag: {
+    maxWidth: "36px"
+  }
 }));
 
-function UserComp(props) {
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
+
+const names = [
+  'Oliver Hansen',
+  'Van Henry',
+  'April Tucker',
+  'Ralph Hubbard',
+  'Omar Alexander',
+  'Carlos Abbott',
+  'Miriam Wagner',
+  'Bradley Wilkerson',
+  'Virginia Andrews',
+  'Kelly Snyder',
+];
+
+function LanguageComp(props) {
   const classes = useStyles();
   
   const [values, setValues] = React.useState({
     dataInline: null,
 
     editingStatus: "", // "" | "ADD" | "EDIT"
-    searchName: "",
 
     error: "",
     success: "",
@@ -80,32 +118,22 @@ function UserComp(props) {
     props.setLoading(true);
     api.loadAll()
       .then((result) => {
-        setValues(values => ({...values, success: "Loading users success!"}));
+        setValues(values => ({...values, success: "Loading languages success!"}));
         props.loadAll(result.data || []);
       })
       .catch((error) => {
-        setValues(values => ({...values, error: "Error in loading users!"}));
+        setValues(values => ({...values, error: "Error in loading languages!"}));
         props.setLoading(false);
       })
   }, []);
 
-  const onSearchNameChange = evt => {
-    evt.persist()
-    setValues(values => ({...values, searchName: evt.target.value}));
-  }
-  const onSearchName = evt => {
-    evt.persist()
-    if(evt.keyCode === 13){
-      props.setLoading(true);
-      api.loadAll(values.searchName)
-        .then((result) => {
-          props.loadAll(result.data || []);
-        })
-        .catch((error) => {
-          props.setLoading(false);
-        })
-    }
-  }
+  const categoryNames = React.useMemo(() => {
+    var names = {};
+    props.categories.list.map(cat => {
+      names[cat.id] = cat.name;
+    });
+    return names;
+  }, [props.categories]);
 
   const onEditItem = row => {
     setValues({
@@ -130,10 +158,10 @@ function UserComp(props) {
       api.update(row.id, row)
         .then((result) => {
           props.update(result.data)
-          setValues({...values, editingStatus: "", success: "Updating user success!"})
+          setValues({...values, editingStatus: "", success: "Updating language success!"})
         })
         .catch((error) => {
-          setValues({...values, editingStatus: "", error: "Error in updating user!"})
+          setValues({...values, editingStatus: "", error: "Error in updating language!"})
           props.setActionProgress(false);
         })
     }else{
@@ -141,10 +169,10 @@ function UserComp(props) {
       api.create(row)
         .then((result) => {
           props.create(result.data)
-          setValues({...values, editingStatus: "", success: "Creating user success!"})
+          setValues({...values, editingStatus: "", success: "Creating language success!"})
         })
         .catch((error) => {
-          setValues({...values, editingStatus: "", error: "Error in creating user!"})
+          setValues({...values, editingStatus: "", error: "Error in creating language!"})
           props.setActionProgress(false);
         })
     }
@@ -165,7 +193,7 @@ function UserComp(props) {
       ...values,
       confirmOpen: true,
       confirmTitle: "Confirm",
-      confirmMessage: "Do you want to delete selected user?",
+      confirmMessage: "Do you want to delete selected language?",
       dataInline: row
     });
   }
@@ -180,10 +208,10 @@ function UserComp(props) {
     api.remove(row.id)
       .then((result) => {
         props.delete(row.id);
-        setValues({...values, confirmOpen:false, success: "Deleting user success!", dataInline: null})
+        setValues({...values, confirmOpen:false, success: "Deleting language success!", dataInline: null})
       })
       .catch((error) => {
-        setValues({...values, confirmOpen:false, error: "Error in deleting user!", dataInline: null})
+        setValues({...values, confirmOpen:false, error: "Error in deleting language!", dataInline: null})
         props.setActionProgress(false);
       })
   }
@@ -202,63 +230,41 @@ function UserComp(props) {
     setValues({ ...values, dataInline: { ...values.dataInline, [name]: event.target.value }});
   };
 
-  const formatUTCDateTime = (utc) => {
-    return moment(utc).format("MM/DD/YYYY hh:mm:ss");
-  }
-
   return (
     <>
       <Portlet>
-        <PortletHeader title="Manage Users">
-          <TextField
-              key="search-name"
-              label="Search Name... (Press enter to go search)"
-              value={values.searchName}
-              onChange={onSearchNameChange}
-              onKeyDown={onSearchName}
-              margin="normal"
-              className="w-25 pull-right"
-            />
+        <PortletHeader title="Manage Languages">
         </PortletHeader>
         <PortletBody>
           <div className="mb-2">
-            {/* <Button variant="contained" color="primary" onClick={() => onEditItem(null)}>
-              <AddIcon /> Add User
-            </Button> */}
-            {!!props.users.isSaving && <CircularProgress size={20} thickness={5} className="ml-2"/>}
+            <Button variant="contained" color="primary" onClick={() => onEditItem(null)}>
+              <AddIcon /> Add Language
+            </Button>
+            {!!props.language.isSaving && <CircularProgress size={20} thickness={5} className="ml-2"/>}
           </div>
-          {!!props.users.isLoading && <CircularProgress className={classes.progress} />}
-          {!props.users.isLoading && <Paper className={classes.root}>
+          {!!props.language.isLoading && <CircularProgress className={classes.progress} />}
+          {!props.language.isLoading && <Paper className={classes.root}>
             <Table className={classes.table}>
               <TableHead>
                 <TableRow>
                   <TableCell>Name</TableCell>
-                  <TableCell>Email</TableCell>
-                  <TableCell>Role</TableCell>
-                  <TableCell>Membership Plan</TableCell>
-                  <TableCell>Profiles</TableCell>
-                  <TableCell>Last Watch</TableCell>
+                  <TableCell>Country Code</TableCell>
+                  <TableCell>Lang Code</TableCell>
+                  <TableCell>Image</TableCell>
                   <TableCell>Actions</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {props.users.list.map((row, index) => (
+                {props.language.list.map((row, index) => (
                   <TableRow key={`data-${row.id}`}>
                     <TableCell component="th" scope="row">
-                      {row.firstname} {row.lastname}
+                      {row.name}
                     </TableCell>
-                    <TableCell>{row.email}</TableCell>
-                    <TableCell>{row.role && row.role.name}</TableCell>
-                    <TableCell>{row.plan && row.plan.name}</TableCell>
-                    <TableCell>{row.profiles &&
-                      row.profiles.map(profile => (
-                        <div key={profile.id}>
-                          <span class="text-success"><b>{profile.name}</b>(Type: {profile.type.name})</span>
-                          <br/>
-                        </div>
-                      ))
-                    }</TableCell>
-                    <TableCell>{row.last_watching_state && formatUTCDateTime(row.last_watching_state.created_at)}</TableCell>
+                    <TableCell>{row.code || ""}</TableCell>
+                    <TableCell>{row.lang_code || ""}</TableCell>
+                    <TableCell>
+                      <img src={row.svg_url} alt={row.name} className={classes.svgFlag}/>
+                    </TableCell>
                     <TableCell className="p-0">
                       <IconButton aria-label="Edit" onClick={() => onEditItem(row)}>
                         <EditIcon />
@@ -296,42 +302,42 @@ function UserComp(props) {
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
-          <DialogTitle id="alert-dialog-title">{values.editingStatus} user</DialogTitle>
+          <DialogTitle id="alert-dialog-title">{values.editingStatus} Language</DialogTitle>
           <DialogContent>
             <div className="row row-full-height ml-1 mt-0">
               <TextField
-                key="first-name"
-                label="First Name"
-                value={(values.dataInline && values.dataInline.firstname) || ""}
-                onChange={handleChange("firstname")}
+                key="name"
+                label="Name"
+                value={(values.dataInline && values.dataInline.name) || ""}
+                onChange={handleChange("name")}
                 margin="normal"
               />
               <br />
               <TextField
-                key="last-name"
-                label="Last Name"
-                value={(values.dataInline && values.dataInline.lastname) || ""}
-                onChange={handleChange("lastname")}
+                key="country_code"
+                label="Country Code"
+                value={(values.dataInline && values.dataInline.code) || ""}
+                onChange={handleChange("code")}
                 margin="normal"
               />
+              <br />
               <TextField
-                key="email"
-                label="Email"
-                type="email"
-                value={(values.dataInline && values.dataInline.email) || ""}
-                onChange={handleChange("email")}
+                key="lang_code"
+                label="Language Code"
+                value={(values.dataInline && values.dataInline.lang_code) || ""}
+                onChange={handleChange("lang_code")}
                 margin="normal"
               />
-              <Select
-                className="mt-3"
-                label="Role"
-                value={(values.dataInline && values.dataInline.role_id) || 0}
-                onChange={handleChange("role_id")}
-              >
-                <MenuItem key={1} value={1}>Admin</MenuItem>
-                <MenuItem key={2} value={2}>Content</MenuItem>
-                <MenuItem key={3} value={3}>User</MenuItem>
-              </Select>
+              <br />
+              <TextField
+                key="svg_url"
+                label="Svg URL"
+                value={(values.dataInline && values.dataInline.svg_url) || ""}
+                onChange={handleChange("svg_url")}
+                margin="normal"
+              />
+              <img src={(values.dataInline && values.dataInline.svg_url) || ""} className={classes.svgFlag}/>
+              <br />
             </div>
           </DialogContent>
           <DialogActions>
@@ -351,7 +357,9 @@ function UserComp(props) {
 
 export default injectIntl(
   connect(
-    ({ users }) => ({ users }),
-    actions
-  )(UserComp)
+    ({ categories, language }) => ({ categories, language }),
+    {
+      ...actions,
+    }
+  )(LanguageComp)
 );

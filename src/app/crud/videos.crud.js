@@ -9,6 +9,7 @@ export const LOAD_ALL_URL = "api/admin/video";
 export const LOAD_VIDEO_FILES = "api/admin/video_file/{id}";
 export const CHUNK_UPLOAD_URL = "api/admin/video/upload"
 export const REMOVE_VIDEO_FILE = "api/admin/video_file/{id}/remove";
+export const UPDATE_VIDEO_FILE = "api/admin/video_file/{id}";
 
 export function create(data) {
   return axios.post(CREATE_URL, data);
@@ -35,8 +36,12 @@ export function upload(formData)
   return axios.post(CHUNK_UPLOAD_URL, formData);
 }
 
-export function loadVideos(id) {
-  return axios.get(LOAD_VIDEO_FILES.replace("{id}", id));
+export function updateFile(id, data) {
+  return axios.patch(UPDATE_VIDEO_FILE.replace("{id}", id), data);
+}
+
+export function loadVideos(id, lang_id) {
+  return axios.get(LOAD_VIDEO_FILES.replace("{id}", id) + "?lang_id=" + lang_id);
 }
 
 export function removeFile(id) {

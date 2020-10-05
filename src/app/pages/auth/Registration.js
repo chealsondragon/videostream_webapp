@@ -6,6 +6,7 @@ import { FormattedMessage, injectIntl } from "react-intl";
 import { Checkbox, FormControlLabel, TextField } from "@material-ui/core";
 import * as auth from "../../store/ducks/auth.duck";
 import { register } from "../../crud/auth.crud";
+import URL from "../../helpers/url";
 
 function Registration(props) {
   const { intl } = props;
@@ -80,7 +81,7 @@ function Registration(props) {
             setSubmitting(false);
             setStatus(
               intl.formatMessage({
-                id: "AUTH.VALIDATION.INVALID_LOGIN"
+                id: "AUTH.VALIDATION.INVALID_REGISTER"
               })
             );
           });
@@ -207,7 +208,7 @@ function Registration(props) {
                 Register
                 </button>
 
-              <Link to="/auth">
+              <Link to={URL.AUTH()}>
                 <button type="button" className="btn btn-secondary btn-elevate kt-login__btn-secondary">
                   Back
                   </button>
