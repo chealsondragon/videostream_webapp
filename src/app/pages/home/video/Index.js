@@ -57,6 +57,7 @@ function MyComp(props) {
     dataInline: null,
 
     editingStatus: "", // "" | "ADD" | "EDIT"
+    searchName: "",
 
     error: "",
     success: "",
@@ -193,10 +194,37 @@ function MyComp(props) {
     setValues({ ...values, dataInline: { ...values.dataInline, [name]: event.target.value }});
   };
 
+  const onSearchNameChange = evt => {
+    evt.persist()
+    setValues(values => ({...values, searchName: evt.target.value}));
+  }
+  const onSearchName = evt => {
+    evt.persist()
+    if(evt.keyCode === 13){
+      props.setLoading(true);
+      api.loadAll(values.searchName)
+        .then((result) => {
+          props.loadAll(result.data || []);
+        })
+        .catch((error) => {
+          props.setLoading(false);
+        })
+    }
+  }
+
   return (
     <>
       <Portlet>
         <PortletHeader title="Manage Videos">
+          <TextField
+              key="search-name"
+              label="Search Title... (Press enter to go search)"
+              value={values.searchName}
+              onChange={onSearchNameChange}
+              onKeyDown={onSearchName}
+              margin="normal"
+              className="w-25 pull-right"
+            />
         </PortletHeader>
         <PortletBody>
           <div className="mb-2">
@@ -212,11 +240,12 @@ function MyComp(props) {
             <Table className={classes.table}>
               <TableHead>
                 <TableRow>
+                  <TableCell>No</TableCell>
                   <TableCell>Title</TableCell>
-                  <TableCell>Serie Type</TableCell>
+                  <TableCell style={{ minWidth: 150 }}>Serie Type</TableCell>
                   <TableCell>Category</TableCell>
                   <TableCell>Description</TableCell>
-                  <TableCell>Watch Under<br/>(At least 1 Required)</TableCell>
+                  <TableCell style={{ minWidth: 120 }}>Watch Under<br/>(At least 1 Required)</TableCell>
                   <TableCell>Activate/Deactivate At</TableCell>
                   <TableCell>Actions</TableCell>
                 </TableRow>
@@ -224,6 +253,7 @@ function MyComp(props) {
               <TableBody>
                 {props.videos.list.map((row, index) => (
                   <TableRow key={`data-${row.id}`}>
+                    <TableCell component="th" scope="row">{index+1}</TableCell>
                     <TableCell component="th" scope="row">{row.title}</TableCell>
                     <TableCell>
                       {row.serie_type &&

@@ -39,8 +39,8 @@ const useStyles = makeStyles(theme => ({
   },
   previewLogo: {
     width: '100%',
-    height: '100%',
     objectFit: 'contain',
+    marginTop: theme.spacing(1)
   },
   chips: {
     display: 'flex',
@@ -164,7 +164,12 @@ function MyComp(props) {
     if(!row) setValues({...values, error: "No valid data to save!"})
     else if(!row.title) setValues({...values, error: "Please input default title!"})
     else if(!row.description) setValues({...values, error: "Please input default description!"})
-    else if(!row.title_logo) setValues({...values, error: "Please input logo url!"})
+    else if(!row.title_logo) setValues({...values, error: "Please input title logo url!"})
+    else if(!row.cover) setValues({...values, error: "Please input cover url!"})
+    else if(!row.boxart_image) setValues({...values, error: "Please input boxart_image url!"})
+    else if(!row.bob_background) setValues({...values, error: "Please input bobbackground_image url!"})
+    else if(!row.jawbone_title_logo) setValues({...values, error: "Please input jawbone_title_logo url!"})
+    else if(!row.ptrack_content_image) setValues({...values, error: "Please input ptrack_content_image url!"})
     else{
       row.is_series = row.is_series || false;
       if(!!row.id){
@@ -227,7 +232,7 @@ function MyComp(props) {
             {!!props.videos.isSaving && <CircularProgress size={20} thickness={5} className="ml-2"/>}
           </div>
           <div className="d-flex flex-row">
-            <div className="col-md-6">
+            <div className="col-md-8 col-sm-6 col-xs-12">
               <TextField
                   key="title"
                   label="Title (Default)"
@@ -274,9 +279,44 @@ function MyComp(props) {
               <br/>
               <TextField
                   key="title_logo"
-                  label="Logo URL"
+                  label="Title Logo URL (612x260)"
                   value={(values.dataInline && values.dataInline.title_logo) || ""}
                   onChange={handleChange("title_logo")}
+                  margin="normal"
+              /><br/>
+              <TextField
+                  key="cover"
+                  label="Cover URL (1280x720)"
+                  value={(values.dataInline && values.dataInline.cover) || ""}
+                  onChange={handleChange("cover")}
+                  margin="normal"
+              /><br/>
+              <TextField
+                  key="boxart_image"
+                  label="Boxart Image URL (341x192)"
+                  value={(values.dataInline && values.dataInline.boxart_image) || ""}
+                  onChange={handleChange("boxart_image")}
+                  margin="normal"
+              /><br/>
+              <TextField
+                  key="bob_background"
+                  label="Bob background URL (720x394)"
+                  value={(values.dataInline && values.dataInline.bob_background) || ""}
+                  onChange={handleChange("bob_background")}
+                  margin="normal"
+              /><br/>
+              <TextField
+                  key="jawbone_title_logo"
+                  label="Jawbone Title Logo URL (550x124)"
+                  value={(values.dataInline && values.dataInline.jawbone_title_logo) || ""}
+                  onChange={handleChange("jawbone_title_logo")}
+                  margin="normal"
+              /><br/>
+              <TextField
+                  key="ptrack_content_image"
+                  label="Ptrack Content Image URL (848x477)"
+                  value={(values.dataInline && values.dataInline.ptrack_content_image) || ""}
+                  onChange={handleChange("ptrack_content_image")}
                   margin="normal"
               /><br/>
               <FormControl className={classes.formControl}>
@@ -382,9 +422,34 @@ function MyComp(props) {
                 label="Is Series"
               /><br/> */}
             </div>
-            <div className="col-md-6">
-              <span className="text-black-50">Preview Logo</span><br/>
-              <img src={(values.dataInline && values.dataInline.title_logo) || "https://fiverr-res.cloudinary.com/videos/so_3.473103,t_main1,q_auto,f_auto/ylvg1pdgmaftrql79u7s/do-fire-video-intro-animation.png"} 
+            <div className="col-md-4 col-sm-6 col-xs-12 d-flex flex-column flex-start">
+              <span className="text-black-50 mt-3">Preview Title Logo</span>
+              <img src={(values.dataInline && values.dataInline.title_logo)} 
+                className={classes.previewLogo} 
+                alt="No logo available"
+              />
+              <span className="text-black-50 mt-3">Preview Cover</span>
+              <img src={(values.dataInline && values.dataInline.cover)} 
+                className={classes.previewLogo} 
+                alt="No logo available"
+              />
+              <span className="text-black-50 mt-3">Preview Boxart Image</span>
+              <img src={(values.dataInline && values.dataInline.boxart_image)} 
+                className={classes.previewLogo} 
+                alt="No logo available"
+              />
+              <span className="text-black-50 mt-3">Preview Bob background</span>
+              <img src={(values.dataInline && values.dataInline.bob_background)} 
+                className={classes.previewLogo} 
+                alt="No logo available"
+              />
+              <span className="text-black-50 mt-3">Preview Jawbone Title Logo</span>
+              <img src={(values.dataInline && values.dataInline.jawbone_title_logo)} 
+                className={classes.previewLogo} 
+                alt="No logo available"
+              />
+              <span className="text-black-50 mt-3">Preview Ptrack Content Image</span>
+              <img src={(values.dataInline && values.dataInline.ptrack_content_image)} 
                 className={classes.previewLogo} 
                 alt="No logo available"
               />

@@ -27,8 +27,8 @@ export function load(id) {
   return axios.get(LOAD_URL.replace("{id}", id));
 }
 
-export function loadAll() {
-  return axios.get(LOAD_ALL_URL);
+export function loadAll(name = "") {
+  return axios.get(`${LOAD_ALL_URL}?name=${name}`);
 }
 
 export function upload(formData)
