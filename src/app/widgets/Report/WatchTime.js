@@ -1,60 +1,11 @@
 import React, { useEffect, useMemo, useRef } from "react";
 import { useSelector } from "react-redux";
 import { Chart } from "chart.js";
-import { metronic } from "../../_metronic";
-import * as api from "../crud/report.crud";
+import * as api from "../../crud/report.crud";
 
-export default function SalesBarChart({ title, desc }) {
+export default function WatchTime({ title, desc }) {
   const ref = useRef();
-  const { successColor } = useSelector(state => ({
-    successColor: metronic.builder.selectors.getConfig(
-      state,
-      "colors.state.success"
-    )
-  }));
-
-  const data = useMemo(
-    () => {
-      var data = {
-        labels: [
-          "Label 1",
-          "Label 2",
-          "Label 3",
-          "Label 4",
-          "Label 5",
-          "Label 6",
-          "Label 7",
-          "Label 8",
-          "Label 9",
-          "Label 10",
-          "Label 11",
-          "Label 12",
-          "Label 13",
-          "Label 14",
-          "Label 15",
-          "Label 16"
-        ],
-        datasets: [
-          // {
-          //   label: 'Watched Seconds',
-          //   backgroundColor: successColor,
-          //   data: [15, 20, 25, 30, 25, 20, 15, 20, 25, 30, 25, 20, 15, 10, 15, 20]
-          // },
-          
-          {
-            // label: 'dataset 2',
-            backgroundColor: "#c3c3cb",
-            data: [15, 20, 25, 30, 25, 20, 15, 20, 25, 30, 25, 20, 15, 10, 15, 20]
-          }
-        ]
-      };
-
-
-      return data;
-    },
-    [successColor]
-  );
-
+ 
   var myChart = null;
 
   const initChart = (data) => {

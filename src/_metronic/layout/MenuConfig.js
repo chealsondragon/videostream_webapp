@@ -5,26 +5,84 @@ export default {
     self: {},
     items: [
       {
-        title: "Users",
+        title: "Account",
+        alignment: "center",
         root: true,
-        alignment: "left",
         toggle: "click",
-        page: 'users',
+        submenu: [
+          {
+            title: "Membership Plan",
+            root: true,
+            alignment: "left",
+            toggle: "click",
+            page: URL.PLAN(),
+          },
+          {
+            title: "Profile Type",
+            root: true,
+            alignment: "left",
+            toggle: "click",
+            page: URL.PROFILE_TYPE(),
+          },
+          {
+            title: "Users & Profiles",
+            root: true,
+            alignment: "left",
+            toggle: "click",
+            page: URL.USERS(),
+          }
+        ]
       },
-      { section: 'Data' },
       {
-        title: "Category",
+        title: "CONFIGURATION",
+        alignment: "center",
         root: true,
-        alignment: "left",
         toggle: "click",
-        page: 'categories',
+        submenu: [
+          {
+            title: "Language",
+            root: true,
+            alignment: "left",
+            toggle: "click",
+            page: URL.LANG(),
+          },
+          {
+            title: "Serie Type",
+            root: true,
+            alignment: "left",
+            toggle: "click",
+            page: URL.SERIE_TYPE(),
+          },
+          {
+            title: "Video Category",
+            root: true,
+            alignment: "left",
+            toggle: "click",
+            page: URL.CATEGORY(),
+          }
+        ]
       },
       {
-        title: "Video",
+        title: "VIDEO",
+        alignment: "center",
         root: true,
-        alignment: "left",
         toggle: "click",
-        page: "video",
+        submenu: [
+          {
+            title: "Videos",
+            root: true,
+            alignment: "left",
+            toggle: "click",
+            page: URL.LIST_VIDEO(),
+          },
+          {
+            title: "Upload Content",
+            root: true,
+            alignment: "left",
+            toggle: "click",
+            page: URL.UPLOAD_CONTENT(),
+          },
+        ]
       },
       {
         title: "Report",
@@ -37,21 +95,21 @@ export default {
             root: true,
             alignment: "left",
             toggle: "click",
-            page: "stats_video",
+            page: URL.STATS_VIDEO(),
           },
           {
             title: "Per User",
             root: true,
             alignment: "left",
             toggle: "click",
-            page: "stats_user",
+            page: URL.STATS_USER(),
           },
           {
             title: "Per Payment",
             root: true,
             alignment: "left",
             toggle: "click",
-            page: "payment",
+            page: URL.STATS_PAYMENT(),
           }
         ]
       },
@@ -110,14 +168,22 @@ export default {
         toggle: "click",
         page: URL.CATEGORY(),
       },
-      { section: 'DATA' },
+      { section: 'VIDEO' },
       {
-        title: "Upload Video",
+        title: "Videos",
         root: true,
         icon: "fa fa-video",
         alignment: "left",
         toggle: "click",
         page: URL.LIST_VIDEO(),
+      },
+      {
+        title: "Upload Content",
+        root: true,
+        icon: "fa fa-video",
+        alignment: "left",
+        toggle: "click",
+        page: URL.UPLOAD_CONTENT(),
       },
       { section: 'Report' },
       {

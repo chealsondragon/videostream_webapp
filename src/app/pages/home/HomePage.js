@@ -19,6 +19,7 @@ import Category from "./Category";
 
 import Video from './video/Index';
 import EditVideo from './video/Edit';
+import UploadContent from './video/Files';
 
 import ReportVideo from "./report/Video";
 import ReportUser from "./report/User";
@@ -64,6 +65,7 @@ export default function HomePage() {
         
         <Route path={URL.LIST_VIDEO()} component={Video} />
         <Route path={URL.EDIT_VIDEO()} component={EditVideo} />
+        <Route path={URL.UPLOAD_CONTENT()} component={UploadContent}/>
 
         <Route path={URL.STATS_VIDEO()} component={ReportVideo} />
         <Route path={URL.STATS_USER()} component={ReportUser} />

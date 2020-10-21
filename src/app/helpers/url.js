@@ -45,6 +45,7 @@ export default {
 
   LIST_VIDEO: abstractURL('/videos'),
   EDIT_VIDEO: abstractURL('/video/:id'),
+  UPLOAD_CONTENT: abstractURL('/content/:id'),
 
   STATS_VIDEO: abstractURL('/report/stats_video'),
   STATS_USER: abstractURL('/report/stats_user'),

@@ -7,16 +7,10 @@ import {
   PortletHeaderToolbar
 } from "../../../partials/content/Portlet";
 import { metronic } from "../../../../_metronic";
-import QuickStatsChart from "../../../widgets/QuickStatsChart";
-import OrderStatisticsChart from "../../../widgets/OrderStatisticsChart";
-import OrdersWidget from "../../../widgets/OrdersWidget";
-import SalesBarChart from "../../../widgets/SalesBarChart";
-import DownloadFiles from "../../../widgets/DownloadFiles";
-import NewUsers from "../../../widgets/NewUsers";
-import LatestUpdates from "../../../widgets/LatestUpdates";
-import BestSellers from "../../../widgets/BestSellers";
-import RecentActivities from "../../../widgets/RecentActivities";
-import PortletHeaderDropdown from "../../../partials/content/CustomDropdowns/PortletHeaderDropdown";
+
+import WatchTime from "../../../widgets/Report/WatchTime";
+import LatestWatch from "../../../widgets/Report/LatestWatch";
+import TopRated from "../../../widgets/Report/TopRated";
 
 export default function Dashboard() {
   const { brandColor, dangerColor, successColor, primaryColor } = useSelector(
@@ -74,16 +68,10 @@ export default function Dashboard() {
       <Portlet>
         <PortletBody fit={true}>
           <div className="row row-no-padding row-col-separator-xl">
-            <div className="col-xl-6">
-              <SalesBarChart
-                title="Daily Watch Hours"
-                desc="Check out each column for more details"
-              />
-            </div>
-            <div className="col-xl-6">
-              <SalesBarChart
-                title="Revenue Change"
-                desc="Revenue change breakdown by category"
+            <div className="col-xl-12">
+              <WatchTime
+                title="Watch Time(min)"
+                desc=""
               />
             </div>
           </div>
@@ -91,11 +79,11 @@ export default function Dashboard() {
       </Portlet>
 
       <div className="row">
-        <div className="col-xl-8">
-          <BestSellers />
+        <div className="col-xl-6">
+          <TopRated />
         </div>
-        <div className="col-xl-4">
-          <LatestUpdates />
+        <div className="col-xl-6">
+          <LatestWatch />
         </div>
       </div>
     </>

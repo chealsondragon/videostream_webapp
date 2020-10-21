@@ -24,6 +24,7 @@ import { actions } from "../../../store/ducks/videos.duck";
 import MySnackBar from "../../../partials/MySnackBar";
 import MyAlertDialog from "../../../partials/MyAlertDialog";
 import { Link } from "react-router-dom";
+import { CloudUpload } from "@material-ui/icons";
 
 const useStyles = makeStyles(theme => ({
   buttonProgress: {
@@ -247,7 +248,7 @@ function MyComp(props) {
                   <TableCell>Description</TableCell>
                   <TableCell style={{ minWidth: 120 }}>Watch Under<br/>(At least 1 Required)</TableCell>
                   <TableCell>Activate/Deactivate At</TableCell>
-                  <TableCell>Actions</TableCell>
+                  <TableCell style={{ minWidth: 150 }}>Actions</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -292,6 +293,11 @@ function MyComp(props) {
                       <IconButton aria-label="Delete" onClick={() => onDeleteItem(row)}>
                         <DeleteIcon />
                       </IconButton>
+                      <Link to={URL.UPLOAD_CONTENT({id: row.id})}>
+                        <IconButton aria-label="Upload">
+                          <CloudUpload/>
+                        </IconButton>
+                      </Link>
                     </TableCell>
                   </TableRow>
                 ))}

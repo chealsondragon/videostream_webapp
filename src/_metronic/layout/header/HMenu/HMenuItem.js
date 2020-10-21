@@ -192,7 +192,7 @@ export default class HMenuItem extends React.Component {
 
         {/* if item hasn't submenu */}
         {!item.submenu && (
-          <Link to={`/${item.page || ""}`} className="kt-menu__link">
+          <Link to={`${item.page}`} className="kt-menu__link">
             <MenuItemInner
               item={item}
               parentItem={parentItem}

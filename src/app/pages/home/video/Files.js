@@ -6,6 +6,7 @@ import { green } from '@material-ui/core/colors';
 import {  TextField,  Button, Table, TableCell, TableBody, TableHead, TableRow, IconButton, LinearProgress, FormControl, InputLabel, Select, Tooltip } from "@material-ui/core";
 import MenuItem from '@material-ui/core/MenuItem';
 import DeleteIcon from '@material-ui/icons/Delete';
+import URL from "../../../helpers/url";
 
 import EditIcon from '@material-ui/icons/Edit';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -14,23 +15,26 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { injectIntl } from "react-intl";
+import { ChevronLeftSharp } from "@material-ui/icons";
 
 import {  Portlet,  PortletBody,  PortletHeader } from "../../../partials/content/Portlet";
 
 import * as api from "../../../crud/videos.crud"
-import { actions } from "../../../store/ducks/video-files.duck";
+import { actions as actions_videos } from "../../../store/ducks/videos.duck";
+import { actions as actions_files } from "../../../store/ducks/video-files.duck";
 
 import MySnackBar from "../../../partials/MySnackBar";
 import MyAlertDialog from "../../../partials/MyAlertDialog";
 import { ArrowUpward, PhotoAlbum, PlayCircleOutline } from "@material-ui/icons";
 import { Carousel } from "react-bootstrap";
 import ReactNetflixPlayer from 'react-netflix-player';
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
   buttonProgress: {
     color: green[500],
     position: 'absolute',
-    top: '50%',
+    top: '50%', 
     left: '50%',
     marginTop: -12,
     marginLeft: -12,
@@ -97,8 +101,11 @@ function MyComp(props) {
   
   // const typeString = ["Free", "Pay to Watch", "Basic Subscription", "Premium Subscription"];
 
-  const id = props.video_id;
-  const main_video = props.video;
+  const id = parseInt(_.get(props, 'match.params.id'));
+  const main_video = id && _.get(
+    props.videos.list.filter((x) => x.id === parseInt(id, 10)),
+    ['0']
+  );
   
   const [values, setValues] = React.useState({
     dataInline: {},
@@ -144,11 +151,18 @@ function MyComp(props) {
   }, [values.success]);
 
   const loadVideos = (lang_id) => {
+    if(!id || !main_video)
+    {
+      console.log("Main video is null...");
+      props.loadAll({ data: [] });
+      return;
+    }
+
     props.setLoading(true);
     api.loadVideos(id, typeof lang_id !== "undefined" ? (lang_id||0) : (values.search_lang || 0))
       .then((result) => {
         setValues(values => ({...values, success: "Loading video files success!"}));
-        props.loadAll(result.data || []);
+        props.loadAll(result.data);
       })
       .catch((error) => {
         setValues(values => ({...values, error: "Error in loading video files!"}));
@@ -157,6 +171,19 @@ function MyComp(props) {
   }
 
   React.useEffect(() => {
+    if(id)
+    {
+    }else if(!props.videos || !props.videos.list || props.videos.list.length <= 0){
+      api.loadAll()
+        .then((result) => {
+          console.log("Loading videos success!");
+          props.loadAllVideo(result.data);
+        })
+        .catch((error) => {
+          console.log("Error in loading videos!");
+        })
+    }
+
     loadVideos();
   }, []);
 
@@ -245,6 +272,10 @@ function MyComp(props) {
     loadVideos(event.target.value);
   }
 
+  const onSelectVideo = (event) => {
+    window.location.href = URL.UPLOAD_CONTENT({ id: event.target.value });
+  }
+
   const handleChange = name => event => {
     setValues({ ...values, dataInline: { ...values.dataInline, [name]: event.target.value }});
   };
@@ -318,8 +349,8 @@ function MyComp(props) {
 
   const getClipLabel = (video, file) => {
     if(!video || !video.serie_type || !file) return  "";
-    if(file.role === 1) return "Trailer";
-    if(file.role === 2) return "Intro";
+    if(file.role === 1) return "Intro";
+    if(file.role === 2) return "Trailer";
     if(file.role === 3){
       return "Ads at " + getTimeString(file.ads_timepoint || 0);
     }
@@ -353,82 +384,110 @@ function MyComp(props) {
     return `${hr}h ${min}m ${sec}s`;
   }
 
-  const serie_type = main_video && main_video.serie_type;
+  const serie_type = (main_video && main_video.serie_type ) || {};
 
   return (
-    <div style={{ display:"flex", flexDirection: "row" }}>
-      <Portlet key="videos" className="col-md-8 mr-2">
-        <PortletHeader title="Video Files">
-          <FormControl className={classes.formControl}>
-            <InputLabel htmlFor="select-lang">Search By Language...</InputLabel>
+    <div style={{ display:"flex", flexDirection: "column" }}>
+      <Portlet key="select-video" className="col-md-12" style={{ background: "#f9f9f9" }}>
+        <PortletHeader title="Select Video">
+          <FormControl className={classes.formControl} style={{ minWidth: 600 }}>
+            <InputLabel htmlFor="select-lang">Select Video...</InputLabel>
             <Select
-              value={values.search_lang || 0}
-              onChange={onSearchByLang}
+              value={id || 0}
+              onChange={onSelectVideo}
             >
               <MenuItem key={0} value={0}>
-                <span>&nbsp;</span>
+                  <span style={{ color: "gray", fontSize: 11 }}>Please select video to upload content.</span>
               </MenuItem>
-              {props.language.list.map(type => (
-                <MenuItem key={type.id} value={type.id}>
-                  {type.name}
+              {props.videos.list.map(vid => (
+                <MenuItem key={vid.id} value={vid.id}>
+                  {vid.title}
                 </MenuItem>
               ))}
             </Select>
           </FormControl>
+          <FormControl className={classes.formControl} style={{ display: "flex", justifyContent: "flex-end" }}>
+            <Link to={URL.LIST_VIDEO()} className="mr-2">
+              <Button variant="contained" color="secondary">
+                <ChevronLeftSharp/> Back to All Videos
+              </Button>
+            </Link>
+          </FormControl>
         </PortletHeader>
-        <PortletBody>
-          {!!props.video_files.isLoading && <CircularProgress className={classes.progress} />}
-          {!props.video_files.isLoading && 
-            <Table className={classes.table}>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Clip Number</TableCell>
-                  <TableCell>Sub Title</TableCell>
-                  <TableCell>Language</TableCell>
-                  <TableCell>Duration</TableCell>
-                  <TableCell>Actions</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {props.video_files.list.map((row, index) => (
-                  <TableRow key={`data-${row.id}`}>
-                    <TableCell component="th" scope="row">{getClipLabel(main_video, row)}</TableCell>
-                    <TableCell>
-                      {row.sub_title}
-                    </TableCell>
-                    <TableCell>
-                      <img src={row.lang && row.lang.svg_url} alt={row.name} className={classes.svgFlag}/>
-                      {row.lang && row.lang.name}
-                    </TableCell>
-                    <TableCell>
-                      {getClipDuration(row)}
-                    </TableCell>
-                    <TableCell className="p-0">
-                      <Tooltip title="View Screenshots" aria-label="Screenshots">
-                        <IconButton aria-label="Preview" onClick={()=>setValues({...values, showScreenshot: true, showScreenshotFile: row})}>
-                          <PhotoAlbum/>
-                        </IconButton>
-                      </Tooltip>
-                      <Tooltip title="Play Video" aria-label="Play-Video">
-                        <IconButton aria-label="Play" onClick={() => playVideo(row)}>
-                          <PlayCircleOutline/>
-                        </IconButton>
-                      </Tooltip>
-                      <IconButton aria-label="Edit" onClick={() => onEditItem(row)}>
-                        <EditIcon />
-                      </IconButton>
-                      <IconButton aria-label="Delete" onClick={() => onDeleteItem(row)}>
-                        <DeleteIcon />
-                      </IconButton>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-        }
-        </PortletBody>
       </Portlet>
-      <Portlet key="upload" className="col-md-4">
+      <div style={{ display:"flex", flexDirection: "row" }}>
+        <Portlet key="videos" className="col-md-8 mr-2">
+          <PortletHeader title="Content Files">    
+            <FormControl className={classes.formControl}>
+              <InputLabel htmlFor="select-lang">Search By Language...</InputLabel>
+              <Select
+                value={values.search_lang || 0}
+                onChange={onSearchByLang}
+              >
+                <MenuItem key={0} value={0}>
+                  <span>&nbsp;</span>
+                </MenuItem>
+                {props.language.list.map(type => (
+                  <MenuItem key={type.id} value={type.id}>
+                    {type.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </PortletHeader>
+          <PortletBody>
+            {!!props.video_files.isLoading && <CircularProgress className={classes.progress} />}
+            {!props.video_files.isLoading && 
+              <Table className={classes.table}>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Clip Number</TableCell>
+                    <TableCell>Sub Title</TableCell>
+                    <TableCell>Language</TableCell>
+                    <TableCell>Duration</TableCell>
+                    <TableCell>Actions</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {props.video_files.list.map((row, index) => (
+                    <TableRow key={`data-${row.id}`}>
+                      <TableCell component="th" scope="row">{getClipLabel(main_video, row)}</TableCell>
+                      <TableCell>
+                        {row.sub_title}
+                      </TableCell>
+                      <TableCell>
+                        <img src={row.lang && row.lang.svg_url} alt={row.name} className={classes.svgFlag}/>
+                        {row.lang && row.lang.name}
+                      </TableCell>
+                      <TableCell>
+                        {getClipDuration(row)}
+                      </TableCell>
+                      <TableCell className="p-0">
+                        <Tooltip title="View Screenshots" aria-label="Screenshots">
+                          <IconButton aria-label="Preview" onClick={()=>setValues({...values, showScreenshot: true, showScreenshotFile: row})}>
+                            <PhotoAlbum/>
+                          </IconButton>
+                        </Tooltip>
+                        <Tooltip title="Play Video" aria-label="Play-Video">
+                          <IconButton aria-label="Play" onClick={() => playVideo(row)}>
+                            <PlayCircleOutline/>
+                          </IconButton>
+                        </Tooltip>
+                        <IconButton aria-label="Edit" onClick={() => onEditItem(row)}>
+                          <EditIcon />
+                        </IconButton>
+                        <IconButton aria-label="Delete" onClick={() => onDeleteItem(row)}>
+                          <DeleteIcon />
+                        </IconButton>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+          }
+          </PortletBody>
+        </Portlet>
+        <Portlet key="upload" className="col-md-4">
         <PortletHeader title="Upload">
         </PortletHeader>
         <PortletBody>
@@ -452,10 +511,10 @@ function MyComp(props) {
                   Ads
                 </MenuItem>
                 <MenuItem key="role-intro" value={2}>
-                  Intro
+                  Trailer
                 </MenuItem>
                 <MenuItem key="role-trailer" value={1}>
-                  Trailer
+                  Intro
                 </MenuItem>
               </Select>
             </FormControl><br/>
@@ -583,6 +642,7 @@ function MyComp(props) {
           </div>}
         </PortletBody>
       </Portlet>
+      </div>
       <MyAlertDialog
         open={values.confirmOpen}
         handleOK={onAgreeDelete}
@@ -683,11 +743,11 @@ function MyComp(props) {
                 <MenuItem key="role-ads" value={3}>
                   Ads
                 </MenuItem>
-                <MenuItem key="role-intro" value={2}>
-                  Intro
-                </MenuItem>
-                <MenuItem key="role-trailer" value={1}>
+                <MenuItem key="role-trailer" value={2}>
                   Trailer
+                </MenuItem>
+                <MenuItem key="role-intro" value={1}>
+                  Intro
                 </MenuItem>
               </Select>
             </FormControl><br/>
@@ -879,9 +939,11 @@ function MyComp(props) {
 
 export default injectIntl(
   connect(
-    ({ video_files }) => ({ video_files }),
+    ({ videos, video_files, serie_type, language }) => ({ videos, video_files, serie_type, language }),
     {
-      ...actions,
+      ...actions_files,
+      setActionProgressVideo: actions_videos.setActionProgress,
+      loadAllVideo: actions_videos.loadAll,
     }
   )(MyComp)
 );
