@@ -3,17 +3,17 @@ import React from "react";
 import PortletHeaderDropdown from "../../partials/content/CustomDropdowns/PortletHeaderDropdown";
 import * as api from "../../crud/report.crud";
 
-export default function TopRated() {
+export default function TopRated({ dateFrom, dateTo }) {
   const [movies, setMovies] = React.useState([])
   React.useEffect(() => {
-    api.getTopRated()
+    api.getTopRated(dateFrom, dateTo)
       .then(result => {
         result.data && setMovies(result.data.splice(0, 10))
       })
       .catch(error => {
         console.log(error)
       })
-  }, [])
+  }, [dateFrom, dateTo])
 
   return (
     <>

@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { Chart } from "chart.js";
 import * as api from "../../crud/report.crud";
 
-export default function WatchTime({ title, desc }) {
+export default function WatchTime({ title, desc, dateFrom, dateTo }) {
   const ref = useRef();
  
   var myChart = null;
@@ -35,7 +35,7 @@ export default function WatchTime({ title, desc }) {
   }
 
   useEffect(() => {
-    api.getWatchHours()
+    api.getWatchHours(dateFrom, dateTo)
       .then(result => {
         if(result.data){
           var chartdata = { labels: [], datasets: [{ backgroundColor: "#c3c3cb", data: [] }] };
@@ -54,7 +54,7 @@ export default function WatchTime({ title, desc }) {
       if(myChart)
         myChart.destroy();
     };
-  }, []);
+  }, [dateFrom, dateTo]);
 
   return (
     <div className="kt-widget14">

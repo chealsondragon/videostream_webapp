@@ -253,7 +253,7 @@ function UserComp(props) {
                     <TableCell>{row.profiles &&
                       row.profiles.map(profile => (
                         <div key={profile.id}>
-                          <span class="text-success"><b>{profile.name}</b>(Type: {profile.type.name})</span>
+                          <span className="text-success"><b>{profile.name}</b>(Type: {profile.type.name})</span>
                           <br/>
                         </div>
                       ))

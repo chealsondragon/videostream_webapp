@@ -6,22 +6,22 @@ export const LOAD_LATEST_WATCH = "api/frontend/report/latest_watch";
 export const LOAD_USER_DATA = "api/frontend/report/user_data";
 export const LOAD_PAYMENT_DATA = "api/frontend/report/payment_data";
 
-export function getWatchHours() {
-  return axios.get(LOAD_WATCH_HOURS);
+export function getWatchHours(from, to) {
+  return axios.get(LOAD_WATCH_HOURS + `?from=${from}&to=${to}`);
 }
 
-export function getTopRated() {
-  return axios.get(LOAD_TOP_RATED);
+export function getTopRated(from, to) {
+  return axios.get(LOAD_TOP_RATED + `?from=${from}&to=${to}`);
 }
 
-export function getLatestWatch() {
-  return axios.get(LOAD_LATEST_WATCH);
+export function getLatestWatch(from, to) {
+  return axios.get(LOAD_LATEST_WATCH + `?from=${from}&to=${to}`);
 }
 
-export function getUserData() {
-  return axios.get(LOAD_USER_DATA);
+export function getUserData(from, to) {
+  return axios.get(LOAD_USER_DATA + `?from=${from}&to=${to}`);
 }
 
-export function getPaymentData() {
-  return axios.get(LOAD_PAYMENT_DATA);
+export function getPaymentData(from, to) {
+  return axios.get(LOAD_PAYMENT_DATA + `?from=${from}&to=${to}`);
 }
