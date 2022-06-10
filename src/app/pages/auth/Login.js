@@ -30,7 +30,7 @@ function Login(props) {
     <>
       <Formik
         initialValues={{
-          email: "admin@admin.com",
+          email: "admin@email.com",
           password: "aaa"
         }}
         validate={values => {
@@ -70,7 +70,6 @@ function Login(props) {
               .catch((error) => {
                 const errorMsg = error.description || error.message || 'Unspecified error';
                 console.log('login', errorMsg);
-
                 disableLoading();
                 setSubmitting(false);
                 setStatus(
